@@ -1,20 +1,21 @@
 package com.example.controller
 
+import com.example.contract.ReviewsContract
 import com.example.data.dto.ReviewsDTO
 import com.example.data.model.ReviewsModel
 import com.example.repository.ReviewsRepository
 
 class ReviewsController(
-    private val reviewsRepository: ReviewsRepository
-) {
+    private val repository: ReviewsRepository
+) : ReviewsContract {
 
-    fun getListReviews(): List<ReviewsModel> = reviewsRepository.getListReviews()
+    override fun getListReviews(): List<ReviewsModel> = repository.getListReviews()
 
-    fun getReviews(id: Int): ReviewsModel? = reviewsRepository.getReviews(id)
+    override fun getReviews(id: Int): ReviewsModel? = repository.getReviews(id)
 
-    fun createReviews(reviews : ReviewsDTO): Unit = reviewsRepository.createReviews(reviews)
+    override fun createReviews(reviews: ReviewsDTO): Unit = repository.createReviews(reviews)
 
-    fun updateReviews(id: Int, reviews : ReviewsDTO): Boolean = reviewsRepository.updateReviews(id, reviews)
+    override fun updateReviews(id: Int, reviews: ReviewsDTO): Boolean = repository.updateReviews(id, reviews)
 
-    fun deleteReviews(id: Int): Boolean = reviewsRepository.deleteReviews(id)
+    override fun deleteReviews(id: Int): Boolean = repository.deleteReviews(id)
 }

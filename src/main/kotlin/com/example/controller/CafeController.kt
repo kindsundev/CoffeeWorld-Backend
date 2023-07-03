@@ -1,14 +1,15 @@
 package com.example.controller
 
+import com.example.contract.CafeContract
 import com.example.data.model.CafeModel
 import com.example.repository.CafeRepository
 
 class CafeController(
-    private val cafeRepository: CafeRepository
-) {
+    private val repository: CafeRepository
+) : CafeContract {
 
-    fun getListCafes(): List<CafeModel> = cafeRepository.getListCafes()
+    override fun getListCafes(): List<CafeModel> = repository.getListCafes()
 
-    fun getCafe(id: Int): CafeModel? = cafeRepository.getCafe(id)
+    override fun getCafe(id: Int): CafeModel? = repository.getCafe(id)
 
 }

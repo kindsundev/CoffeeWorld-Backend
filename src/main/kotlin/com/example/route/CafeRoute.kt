@@ -17,14 +17,14 @@ fun Application.configureCafeRoutes(cafeController: CafeController) {
                 try {
                     val list = cafeController.getListCafes()
                     if (list.isNotEmpty()) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success(true, list))
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
                     } else {
-                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error(false, "Not found list cafes"))
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found list cafes"))
                     }
                 } catch (e: Exception) {
                     logger.error("Error at get list cafes", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error(false, "Something error")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("Something error")
                     )
                 }
             }
@@ -32,22 +32,22 @@ fun Application.configureCafeRoutes(cafeController: CafeController) {
             get("/{id}") {
                 val id = call.parameters["id"]?.toIntOrNull()
                 if (id == null) {
-                    call.respond(HttpStatusCode.BadRequest, ApiResponse.Error(false, "Id cannot be null"))
+                    call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Id cannot be null"))
                     return@get
                 }
                 try {
                     val cafe = cafeController.getCafe(id)
                     if (cafe != null) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success(true, cafe))
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(cafe))
                     } else {
                         call.respond(
-                            HttpStatusCode.NotFound, ApiResponse.Error(false, "Not found cafe")
+                            HttpStatusCode.NotFound, ApiResponse.Error("Not found cafe")
                         )
                     }
-                } catch (e : Exception) {
+                } catch (e: Exception) {
                     logger.error("Error at get cafe by id", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error(false, "Something error")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("Something error")
                     )
                 }
             }

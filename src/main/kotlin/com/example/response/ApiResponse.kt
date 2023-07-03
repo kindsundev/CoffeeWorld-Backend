@@ -3,12 +3,12 @@ package com.example.response
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class ApiResponse<T> {
+sealed class ApiResponse<T>(val success: Boolean) {
 
     @Serializable
-    data class Success<T>(val status: Boolean,val data: T) : ApiResponse<T>()
+    data class Success<T>(val data: T) : ApiResponse<T>(true)
 
     @Serializable
-    data class Error(val status: Boolean,val message: String) : ApiResponse<Nothing>()
+    data class Error(val message: String) : ApiResponse<Nothing>(false)
 
 }

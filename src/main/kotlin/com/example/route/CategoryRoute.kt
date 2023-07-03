@@ -18,14 +18,14 @@ fun Application.configureCategoryRoutes(categoryController: CategoryController) 
                 try {
                     val list = categoryController.getListCategories()
                     if (list.isNotEmpty()) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success(true, list))
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
                     } else {
-                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error(false, "Not found list categories"))
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found list categories"))
                     }
                 } catch (e: Exception) {
                     logger.error("Error at get list categories", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error(false, "Something error")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("Something error")
                     )
                 }
             }
@@ -33,22 +33,22 @@ fun Application.configureCategoryRoutes(categoryController: CategoryController) 
             get("/{id}") {
                 val id = call.parameters["id"]?.toIntOrNull()
                 if (id == null) {
-                    call.respond(HttpStatusCode.BadRequest, ApiResponse.Error(false, "Id cannot be null"))
+                    call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Id cannot be null"))
                     return@get
                 }
                 try {
                     val cafe = categoryController.getCategory(id)
                     if (cafe != null) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success(true, cafe))
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(cafe))
                     } else {
                         call.respond(
-                            HttpStatusCode.NotFound, ApiResponse.Error(false, "Not found cafe")
+                            HttpStatusCode.NotFound, ApiResponse.Error("Not found cafe")
                         )
                     }
                 } catch (e: Exception) {
                     logger.error("Error at get category by id", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error(false, "Something error")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("Something error")
                     )
                 }
             }

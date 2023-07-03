@@ -1,17 +1,17 @@
 package com.example.repository
 
-import com.example.data.db.DatabaseConnector
 import com.example.data.entity.CafeEntity
 import com.example.data.model.CafeModel
 import com.example.util.toCafeModel
+import org.ktorm.database.Database
 import org.ktorm.dsl.*
 
 class CafeRepository(
-    private val database: DatabaseConnector
+    private val database: Database
 ) {
 
     fun getListCafes(): List<CafeModel> {
-        val result = database.connect.from(CafeEntity)
+        val result = database.from(CafeEntity)
             .select()
             .map {
                 it.toCafeModel()
@@ -20,7 +20,7 @@ class CafeRepository(
     }
 
     fun getCafe(id: Int): CafeModel? {
-        val result = database.connect.from(CafeEntity)
+        val result = database.from(CafeEntity)
             .select()
             .where(CafeEntity.id eq id)
             .map {

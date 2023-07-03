@@ -3,9 +3,11 @@ package com.example.plugins
 import com.example.controller.CafeController
 import com.example.controller.CategoryController
 import com.example.controller.DrinksController
+import com.example.controller.ReviewsController
 import com.example.route.configureCafeRoutes
 import com.example.route.configureCategoryRoutes
 import com.example.route.configureDrinksRoute
+import com.example.route.configureReviewsRoutes
 import io.ktor.server.routing.*
 import io.ktor.server.response.*
 import io.ktor.server.application.*
@@ -28,4 +30,8 @@ fun Application.configureDrinksRouting(drinksController: DrinksController) {
 
 fun Application.configureCategoryRouting(categoryController: CategoryController) {
     configureCategoryRoutes(categoryController)
+}
+
+fun Application.configureReviewsRouting(reviewsController: ReviewsController) {
+    configureReviewsRoutes(reviewsController)
 }

@@ -10,13 +10,13 @@ import org.slf4j.LoggerFactory
 
 private val logger by lazy { LoggerFactory.getLogger("CategoryRoutes") }
 
-fun Application.configureCategoryRoutes(categoryController: CategoryController) {
+fun Application.configureCategoryRoutes(controller: CategoryController) {
     routing {
         route("/categories") {
 
             get {
                 try {
-                    val list = categoryController.getListCategories()
+                    val list = controller.getListCategories()
                     if (list.isNotEmpty()) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
                     } else {
@@ -37,7 +37,7 @@ fun Application.configureCategoryRoutes(categoryController: CategoryController) 
                     return@get
                 }
                 try {
-                    val cafe = categoryController.getCategory(id)
+                    val cafe = controller.getCategory(id)
                     if (cafe != null) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(cafe))
                     } else {

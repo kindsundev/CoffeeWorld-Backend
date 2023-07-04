@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory
 
 private val logger by lazy { LoggerFactory.getLogger("DrinksRoutes") }
 
-fun Application.configureDrinksRoute(drinksController: DrinksController) {
+fun Application.configureDrinksRoute(controller: DrinksController) {
     routing {
         route("/drinks") {
 
             get {
                 try {
-                    val list = drinksController.getListDrinks()
+                    val list = controller.getListDrinks()
                     if (list.isNotEmpty()) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
                     } else {
@@ -38,7 +38,7 @@ fun Application.configureDrinksRoute(drinksController: DrinksController) {
                     return@get
                 }
                 try {
-                    val cafe = drinksController.getDrinks(id)
+                    val cafe = controller.getDrinks(id)
                     if (cafe != null) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(cafe))
                     } else {
@@ -68,7 +68,7 @@ fun Application.configureDrinksRoute(drinksController: DrinksController) {
                             HttpStatusCode.BadRequest, ApiResponse.Error("Quantity is numeric or not null")
                         )
                     } else {
-                        val updated = drinksController.updateQuantityDrinks(id, quantity)
+                        val updated = controller.updateQuantityDrinks(id, quantity)
                         if (updated) {
                             call.respond(HttpStatusCode.OK, ApiResponse.Success("Updated to quantity"))
                         } else {

@@ -9,13 +9,13 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 private val logger by lazy { LoggerFactory.getLogger("CafeRoutes") }
-fun Application.configureCafeRoutes(cafeController: CafeController) {
+fun Application.configureCafeRoutes(controller: CafeController) {
     routing {
         route("/cafes") {
 
             get {
                 try {
-                    val list = cafeController.getListCafes()
+                    val list = controller.getListCafes()
                     if (list.isNotEmpty()) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
                     } else {
@@ -36,7 +36,7 @@ fun Application.configureCafeRoutes(cafeController: CafeController) {
                     return@get
                 }
                 try {
-                    val cafe = cafeController.getCafe(id)
+                    val cafe = controller.getCafe(id)
                     if (cafe != null) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(cafe))
                     } else {

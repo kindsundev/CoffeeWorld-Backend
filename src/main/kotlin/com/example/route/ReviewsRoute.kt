@@ -12,13 +12,13 @@ import org.slf4j.LoggerFactory
 
 private val logger by lazy { LoggerFactory.getLogger("ReviewsRoutes") }
 
-fun Application.configureReviewsRoutes(reviewsController: ReviewsController) {
+fun Application.configureReviewsRoutes(controller: ReviewsController) {
     routing {
         route("/reviews") {
 
             get {
                 try {
-                    val list = reviewsController.getListReviews()
+                    val list = controller.getListReviews()
                     if (list.isNotEmpty()) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
                     } else {
@@ -37,7 +37,7 @@ fun Application.configureReviewsRoutes(reviewsController: ReviewsController) {
                     return@get
                 }
                 try {
-                    val reviews = reviewsController.getReviews(id)
+                    val reviews = controller.getReviews(id)
                     if (reviews != null) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(reviews))
                     } else {
@@ -52,7 +52,7 @@ fun Application.configureReviewsRoutes(reviewsController: ReviewsController) {
             post {
                 val reviewsRequest = call.receive<ReviewsDTO>()
                 try {
-                    reviewsController.createReviews(reviewsRequest)
+                    controller.createReviews(reviewsRequest)
                     call.respond(HttpStatusCode.Created, ApiResponse.Success("Create reviews is success"))
                 } catch (e: Exception) {
                     logger.error("Error at create reviews", e)
@@ -73,7 +73,7 @@ fun Application.configureReviewsRoutes(reviewsController: ReviewsController) {
 
                 val reviewsRequest = call.receive<ReviewsDTO>()
                 try {
-                    val updated = reviewsController.updateReviews(id, reviewsRequest)
+                    val updated = controller.updateReviews(id, reviewsRequest)
                     if (updated) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success("Updated to reviews"))
                     } else {
@@ -93,7 +93,7 @@ fun Application.configureReviewsRoutes(reviewsController: ReviewsController) {
                 }
 
                 try {
-                    val deleted = reviewsController.deleteReviews(id)
+                    val deleted = controller.deleteReviews(id)
                     if (deleted) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success("Deleted to reviews"))
                     } else {

@@ -5,7 +5,7 @@ import com.example.data.model.ReviewsModel
 
 interface ReviewsContract {
 
-    fun getListReviews(): List<ReviewsModel>
+    fun getReviewsByDrinksId(drinksId: Int): List<ReviewsModel>
 
     fun getReviews(id: Int): ReviewsModel?
 

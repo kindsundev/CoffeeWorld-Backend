@@ -16,20 +16,6 @@ fun Application.configureReviewsRoutes(controller: ReviewsController) {
     routing {
         route("/reviews") {
 
-            get {
-                try {
-                    val list = controller.getListReviews()
-                    if (list.isNotEmpty()) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
-                    } else {
-                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found list reviews"))
-                    }
-                } catch (e: Exception) {
-                    logger.error("Error at get list drinks", e)
-                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("Something error"))
-                }
-            }
-
             get("/{id}") {
                 val id = call.parameters["id"]?.toIntOrNull()
                 if (id == null) {
@@ -45,6 +31,25 @@ fun Application.configureReviewsRoutes(controller: ReviewsController) {
                     }
                 } catch (e: Exception) {
                     logger.error("Error at get reviews by id", e)
+                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("Something error"))
+                }
+            }
+
+            get("/drinks/{id}") {
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Id cannot be null"))
+                    return@get
+                }
+                try {
+                    val list = controller.getReviewsByDrinksId(id)
+                    if (list.isNotEmpty()) {
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found reviews"))
+                    }
+                } catch (e: Exception) {
+                    logger.error("Error at get reviews by drinks_id", e)
                     call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("Something error"))
                 }
             }

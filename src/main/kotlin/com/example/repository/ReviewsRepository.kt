@@ -2,6 +2,7 @@ package com.example.repository
 
 import com.example.data.dto.ReviewsDTO
 import com.example.data.entity.ReviewsEntity
+import com.example.data.entity.UserEntity
 import com.example.data.model.ReviewsModel
 import com.example.util.toReviewsModel
 import org.ktorm.database.Database
@@ -11,10 +12,22 @@ class ReviewsRepository(
     private val database: Database
 ) {
 
-    fun getListReviews(): List<ReviewsModel> {
-        return database.from(ReviewsEntity)
+    fun getReviewsByDrinksId (drinksId: Int): List<ReviewsModel> {
+        val result = database.from(ReviewsEntity)
+            .innerJoin(UserEntity, on = ReviewsEntity.userId eq UserEntity.id)
             .select()
-            .map { it.toReviewsModel() }
+            .where { ReviewsEntity.drinksId eq drinksId }
+            .map {
+                ReviewsModel(
+                    id = it[ReviewsEntity.id]!!,
+                    drinksId = it[ReviewsEntity.drinksId]!!,
+                    userId = it[ReviewsEntity.userId]!!,
+                    rating = it[ReviewsEntity.rating]!!,
+                    comment = it[ReviewsEntity.comment],
+                    userName = it[UserEntity.name]
+                )
+            }
+        return result
     }
 
     fun getReviews(id: Int): ReviewsModel? {

@@ -11,5 +11,6 @@ data class ReviewsModel(
     @SerialName("user_id")
     val userId: Int,
     val rating: Float,
-    val comment: String? = null
+    val comment: String? = null,
+    val userName: String? = null
 )

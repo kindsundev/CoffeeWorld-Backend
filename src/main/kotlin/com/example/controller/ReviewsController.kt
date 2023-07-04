@@ -9,9 +9,9 @@ class ReviewsController(
     private val repository: ReviewsRepository
 ) : ReviewsContract {
 
-    override fun getListReviews(): List<ReviewsModel> = repository.getListReviews()
-
     override fun getReviews(id: Int): ReviewsModel? = repository.getReviews(id)
+
+    override fun getReviewsByDrinksId(drinksId: Int): List<ReviewsModel> = repository.getReviewsByDrinksId(drinksId)
 
     override fun createReviews(reviews: ReviewsDTO): Unit = repository.createReviews(reviews)
 

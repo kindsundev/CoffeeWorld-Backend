@@ -37,3 +37,7 @@ fun Application.configureFavoriteRouting(controller: FavoriteController) {
 fun Application.configurePaymentMethodRouting(controller: PaymentMethodController) {
     configurePaymentMethodRoutes(controller)
 }
+
+fun Application.configureCartRouting(controller: CartController) {
+    configureCartRoutes(controller)
+}

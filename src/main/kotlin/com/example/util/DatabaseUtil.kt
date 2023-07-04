@@ -28,15 +28,14 @@ fun QueryRowSet.toBillModel(): BillModel {
     )
 }
 
-fun QueryRowSet.toCartModel(): CartModel {
-    return CartModel(
-        id = this[CartEntity.id]!!,
-        userId = this[CartEntity.userId]!!,
-        drinksId = this[CartEntity.drinksId]!!,
-        quantity = this[CartEntity.quantity]!!
-    )
-}
+fun QueryRowSet.toCartItemModel(): CartItemModel {
+    val cartItemId = this[CartItemEntity.id]!!
+    val cartId = this[CartItemEntity.cartId]!!
+    val drinksId = this[CartItemEntity.drinksId]!!
+    val quantity = this[CartItemEntity.quantity]!!
 
+    return CartItemModel(cartItemId, cartId, drinksId, quantity)
+}
 fun QueryRowSet.toCategoryModel(): CategoryModel {
     return CategoryModel(
         id = this[CategoryEntity.id]!!,

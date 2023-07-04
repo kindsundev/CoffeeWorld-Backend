@@ -43,3 +43,10 @@ fun Application.initializedPaymentMethodRouting() {
     configurePaymentMethodRouting(controller)
 }
 
+fun Application.initializedCartRouting() {
+    val repository = CartRepository(database)
+    val controller = CartController(repository)
+    configureCartRouting(controller)
+}
+
+

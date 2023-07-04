@@ -1,14 +1,12 @@
-package com.example.data.model
+package com.example.data.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CartModel(
-    val id: Int,
+data class CartDTO(
     @SerialName("user_id")
     val userId: Int,
     val name: String,
-    val date: String,
-    val drinksOrder: List<CartItemModel>? = null
+    val date: String
 )

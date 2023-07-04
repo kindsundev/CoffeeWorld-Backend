@@ -22,4 +22,5 @@ fun Application.module() {
     initializedReviewsRouting()
     initializedFavoriteRouting()
     initializedPaymentMethodRouting()
+    initializedCartRouting()
 }

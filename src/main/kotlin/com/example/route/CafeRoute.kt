@@ -9,6 +9,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 private val logger by lazy { LoggerFactory.getLogger("CafeRoutes") }
+
 fun Application.configureCafeRoutes(controller: CafeController) {
     routing {
         route("/cafes") {

@@ -67,8 +67,8 @@ fun QueryRowSet.toFavoriteModel(): FavoriteModel {
     )
 }
 
-fun QueryRowSet.toPaymentMethodModel(): PaymentMethod {
-    return PaymentMethod(
+fun QueryRowSet.toPaymentMethodModel(): PaymentMethodModel {
+    return PaymentMethodModel(
         id = this[PaymentMethodEntity.id]!!,
         name = this[PaymentMethodEntity.name]!!,
     )

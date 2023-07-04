@@ -3,7 +3,7 @@ package com.example.data.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PaymentMethod(
+data class PaymentMethodModel(
     val id: Int,
     val name: String
 )

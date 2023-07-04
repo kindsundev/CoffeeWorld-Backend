@@ -37,3 +37,9 @@ fun Application.initializedFavoriteRouting() {
     configureFavoriteRouting(controller)
 }
 
+fun Application.initializedPaymentMethodRouting() {
+    val repository = PaymentMethodRepository(database)
+    val controller = PaymentMethodController(repository)
+    configurePaymentMethodRouting(controller)
+}
+

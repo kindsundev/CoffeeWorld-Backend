@@ -21,4 +21,5 @@ fun Application.module() {
     initializedCategoryRouting()
     initializedReviewsRouting()
     initializedFavoriteRouting()
+    initializedPaymentMethodRouting()
 }

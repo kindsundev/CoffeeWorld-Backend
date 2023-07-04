@@ -1,13 +1,7 @@
 package com.example.plugins
 
-import com.example.controller.CafeController
-import com.example.controller.CategoryController
-import com.example.controller.DrinksController
-import com.example.controller.ReviewsController
-import com.example.route.configureCafeRoutes
-import com.example.route.configureCategoryRoutes
-import com.example.route.configureDrinksRoute
-import com.example.route.configureReviewsRoutes
+import com.example.controller.*
+import com.example.route.*
 import io.ktor.server.routing.*
 import io.ktor.server.response.*
 import io.ktor.server.application.*
@@ -20,18 +14,22 @@ fun Application.configureRouting() {
     }
 }
 
-fun Application.configureCafeRouting(cafeController: CafeController) {
-    configureCafeRoutes(cafeController)
+fun Application.configureCafeRouting(controller: CafeController) {
+    configureCafeRoutes(controller)
 }
 
-fun Application.configureDrinksRouting(drinksController: DrinksController) {
-    configureDrinksRoute(drinksController)
+fun Application.configureDrinksRouting(controller: DrinksController) {
+    configureDrinksRoute(controller)
 }
 
-fun Application.configureCategoryRouting(categoryController: CategoryController) {
-    configureCategoryRoutes(categoryController)
+fun Application.configureCategoryRouting(controller: CategoryController) {
+    configureCategoryRoutes(controller)
 }
 
-fun Application.configureReviewsRouting(reviewsController: ReviewsController) {
-    configureReviewsRoutes(reviewsController)
+fun Application.configureReviewsRouting(controller: ReviewsController) {
+    configureReviewsRoutes(controller)
+}
+
+fun Application.configureFavoriteRouting(controller: FavoriteController) {
+    configureFavoriteRoutes(controller)
 }

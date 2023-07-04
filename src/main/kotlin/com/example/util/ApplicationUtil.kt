@@ -1,41 +1,39 @@
 package com.example.util
 
-import com.example.controller.CafeController
-import com.example.controller.CategoryController
-import com.example.controller.DrinksController
-import com.example.controller.ReviewsController
+import com.example.controller.*
 import com.example.data.db.DatabaseConnector
-import com.example.plugins.configureCafeRouting
-import com.example.plugins.configureCategoryRouting
-import com.example.plugins.configureDrinksRouting
-import com.example.plugins.configureReviewsRouting
-import com.example.repository.CafeRepository
-import com.example.repository.CategoryRepository
-import com.example.repository.DrinksRepository
-import com.example.repository.ReviewsRepository
+import com.example.plugins.*
+import com.example.repository.*
 import io.ktor.server.application.*
 
 private val database = DatabaseConnector.connect
 fun Application.initializedCafeRouting() {
-    val cafeRepository = CafeRepository(database)
-    val cafeController = CafeController(cafeRepository)
-    configureCafeRouting(cafeController)
+    val repository = CafeRepository(database)
+    val controller = CafeController(repository)
+    configureCafeRouting(controller)
 }
 
 fun Application.initializedDrinksRouting() {
-    val drinksRepository = DrinksRepository(database)
-    val drinksController = DrinksController(drinksRepository)
-    configureDrinksRouting(drinksController)
+    val repository = DrinksRepository(database)
+    val controller = DrinksController(repository)
+    configureDrinksRouting(controller)
 }
 
 fun Application.initializedCategoryRouting() {
-    val categoryRepository = CategoryRepository(database)
-    val categoryController = CategoryController(categoryRepository)
-    configureCategoryRouting(categoryController)
+    val repository = CategoryRepository(database)
+    val controller = CategoryController(repository)
+    configureCategoryRouting(controller)
 }
 
 fun Application.initializedReviewsRouting() {
-    val reviewsRepository = ReviewsRepository(database)
-    val reviewsController = ReviewsController(reviewsRepository)
-    configureReviewsRouting(reviewsController)
+    val repository = ReviewsRepository(database)
+    val controller = ReviewsController(repository)
+    configureReviewsRouting(controller)
 }
+
+fun Application.initializedFavoriteRouting() {
+    val repository = FavoriteRepository(database)
+    val controller = FavoriteController(repository)
+    configureFavoriteRouting(controller)
+}
+

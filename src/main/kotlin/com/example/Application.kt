@@ -20,4 +20,5 @@ fun Application.module() {
     initializedDrinksRouting()
     initializedCategoryRouting()
     initializedReviewsRouting()
+    initializedFavoriteRouting()
 }

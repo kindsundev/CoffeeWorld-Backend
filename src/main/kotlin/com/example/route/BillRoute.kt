@@ -2,7 +2,6 @@ package com.example.route
 
 import com.example.controller.BillController
 import com.example.data.dto.BillDTO
-import com.example.data.dto.CartDTO
 import com.example.response.ApiResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -42,8 +41,12 @@ fun Application.configureBillRoutes(controller: BillController) {
             post {
                 val billRequest = call.receive<BillDTO>()
                 try {
-                    controller.createBill(billRequest)
-                    call.respond(HttpStatusCode.Created, ApiResponse.Success("Create bill is success"))
+                    val bill = controller.createBill(billRequest)
+                    if (bill != null) {
+                        call.respond(HttpStatusCode.Created, ApiResponse.Success(bill))
+                    } else {
+                        call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Please check cart before create bill"))
+                    }
                 } catch (e: Exception) {
                     logger.error("Error at create bill", e)
                     call.respond(

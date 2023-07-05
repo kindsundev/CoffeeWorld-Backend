@@ -11,6 +11,6 @@ class BillController(
 
     override fun getBillByUserId(userId: Int): List<BillModel> = repository.getBillByUserId(userId)
 
-    override fun createBill(bill: BillDTO) = repository.createBill(bill)
+    override fun createBill(bill: BillDTO): BillModel? = repository.createBill(bill)
 
 }

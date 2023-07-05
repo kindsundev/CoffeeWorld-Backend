@@ -7,6 +7,6 @@ interface BillContract {
 
     fun getBillByUserId(userId: Int): List<BillModel>
 
-    fun createBill(bill: BillDTO)
+    fun createBill(bill: BillDTO): BillModel?
 
 }

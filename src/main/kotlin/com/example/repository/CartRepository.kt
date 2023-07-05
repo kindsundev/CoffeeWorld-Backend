@@ -5,7 +5,6 @@ import com.example.data.entity.CartEntity
 import com.example.data.entity.CartItemEntity
 import com.example.data.model.CartItemModel
 import com.example.data.model.CartModel
-import com.example.util.toCartItemModel
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 
@@ -13,37 +12,30 @@ class CartRepository(
     private val database: Database
 ) {
 
-    // cannot use join here because, if pk cart_item.id is null -> tired
-    fun getCartByUserId(id: Int): List<CartModel> {
-        val carts = mutableListOf<CartModel>()
-
-        database.from(CartEntity)
+    fun getCartByUserId(userId: Int): List<CartModel> {
+        val cartItems = database.from(CartItemEntity)
             .select()
-            .where { CartEntity.userId eq id }
-            .forEach { query ->
-                val cartId = query[CartEntity.id]!!
-                val userId = query[CartEntity.userId]!!
-                val name = query[CartEntity.name]!!
-                val date = query[CartEntity.date]!!
-
-                val cartItems = getListCartItems(cartId)
-
-                val cartModel = CartModel(cartId, userId, name, date, cartItems.ifEmpty { null })
-                carts.add(cartModel)
+            .map {
+                val cartItemId = it[CartItemEntity.id] ?: -1
+                val cartId = it[CartItemEntity.cartId] ?: -1
+                val drinksId = it[CartItemEntity.drinksId] ?: -1
+                val quantity = it[CartItemEntity.quantity] ?: -1
+                CartItemModel(cartItemId, cartId, drinksId, quantity)
             }
+            .groupBy { it.cartId }
 
-        return carts
-    }
-
-    private fun getListCartItems(cartId: Int): List<CartItemModel> {
-        val cartItems = mutableListOf<CartItemModel>()
-        database.from(CartItemEntity)
+        return database.from(CartEntity)
+            .leftJoin(CartItemEntity, CartEntity.id eq CartItemEntity.cartId)
             .select()
-            .where { CartItemEntity.cartId eq cartId }
-            .forEach {
-                cartItems.add(it.toCartItemModel())
+            .where { CartEntity.userId eq userId }
+            .map {
+                val cartId = it[CartEntity.id]!!
+                val name = it[CartEntity.name]!!
+                val date = it[CartEntity.date]!!
+                val cartItemsForCart = cartItems[cartId]
+
+                CartModel(cartId, userId, name, date, cartItemsForCart)
             }
-        return cartItems
     }
 
     fun createCart(cart: CartDTO) {

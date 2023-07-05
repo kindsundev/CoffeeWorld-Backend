@@ -41,3 +41,7 @@ fun Application.configurePaymentMethodRouting(controller: PaymentMethodControlle
 fun Application.configureCartRouting(controller: CartController) {
     configureCartRoutes(controller)
 }
+
+fun Application.configureBillRouting(controller: BillController) {
+    configureBillRoutes(controller)
+}

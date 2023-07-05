@@ -23,4 +23,5 @@ fun Application.module() {
     initializedFavoriteRouting()
     initializedPaymentMethodRouting()
     initializedCartRouting()
+    initializedBillRouting()
 }

@@ -49,4 +49,10 @@ fun Application.initializedCartRouting() {
     configureCartRouting(controller)
 }
 
+fun Application.initializedBillRouting() {
+    val repository = BillRepository(database)
+    val controller = BillController(repository)
+    configureBillRouting(controller)
+}
+
 

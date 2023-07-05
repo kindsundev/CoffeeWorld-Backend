@@ -48,10 +48,10 @@ class CartRepository(
     }
 
     fun deleteCart(id: Int): Boolean {
-        val deleteRow = database.delete(CartEntity) {
+        database.delete(CartItemEntity) { CartItemEntity.cartId eq id }
+        return database.delete(CartEntity) {
             it.id eq id
-        }
-        return deleteRow > 0
+        } > 0
     }
 
     fun insertItemToCart(item: CartItemDTO) {

@@ -10,5 +10,6 @@ data class CartModel(
     val userId: Int,
     val name: String,
     val date: String,
+    @SerialName("drinks_oder")
     val drinksOrder: List<CartItemModel>? = null
 )

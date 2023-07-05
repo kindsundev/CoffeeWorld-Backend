@@ -23,21 +23,22 @@ class CartRepository(
                 val quantity = it[CartItemEntity.quantity] ?: -1
                 CartItemModel(cartItemId, cartId, drinksId, quantity)
             }
-            .groupBy { it.cartId }
+
+        val cartItemsMap = cartItems.groupBy { it.cartId }
 
         return database.from(CartEntity)
-            .leftJoin(CartItemEntity, CartEntity.id eq CartItemEntity.cartId)
             .select()
             .where { CartEntity.userId eq userId }
             .map {
                 val cartId = it[CartEntity.id]!!
                 val name = it[CartEntity.name]!!
                 val date = it[CartEntity.date]!!
-                val cartItemsForCart = cartItems[cartId]
+                val cartItemsForCart = cartItemsMap[cartId] ?: emptyList()
 
                 CartModel(cartId, userId, name, date, cartItemsForCart)
             }
     }
+
 
     fun createCart(cart: CartDTO) {
         database.insert(CartEntity) {

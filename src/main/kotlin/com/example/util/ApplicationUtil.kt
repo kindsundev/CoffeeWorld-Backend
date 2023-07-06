@@ -55,4 +55,9 @@ fun Application.initializedBillRouting() {
     configureBillRouting(controller)
 }
 
+fun Application.initializedAuthenticationRouting() {
+    val repository = AuthenticationRepository(database)
+    val controller = AuthenticationController(repository)
+    configureAuthenticationRouting(controller)
+}
 

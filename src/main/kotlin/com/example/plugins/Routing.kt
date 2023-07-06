@@ -45,3 +45,7 @@ fun Application.configureCartRouting(controller: CartController) {
 fun Application.configureBillRouting(controller: BillController) {
     configureBillRoutes(controller)
 }
+
+fun Application.configureAuthenticationRouting(controller: AuthenticationController) {
+    configureAuthenticationRoutes(controller)
+}

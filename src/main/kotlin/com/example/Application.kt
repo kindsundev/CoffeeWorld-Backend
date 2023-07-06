@@ -24,4 +24,5 @@ fun Application.module() {
     initializedPaymentMethodRouting()
     initializedCartRouting()
     initializedBillRouting()
+    initializedAuthenticationRouting()
 }

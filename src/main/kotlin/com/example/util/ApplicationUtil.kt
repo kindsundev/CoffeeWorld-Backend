@@ -5,6 +5,7 @@ import com.example.data.db.DatabaseConnector
 import com.example.plugins.*
 import com.example.repository.*
 import io.ktor.server.application.*
+import io.ktor.server.config.*
 
 private val database = DatabaseConnector.connect
 fun Application.initializedCafeRouting() {
@@ -55,9 +56,9 @@ fun Application.initializedBillRouting() {
     configureBillRouting(controller)
 }
 
-fun Application.initializedAuthenticationRouting() {
+fun Application.initializedAuthenticationRouting(config: HoconApplicationConfig) {
     val repository = AuthenticationRepository(database)
     val controller = AuthenticationController(repository)
-    configureAuthenticationRouting(controller)
+    configureAuthenticationRouting(controller, config)
 }
 

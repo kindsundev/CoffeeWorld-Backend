@@ -7,6 +7,8 @@ import com.example.plugins.*
 import com.example.util.*
 import com.example.util.initializedCategoryRouting
 import com.example.util.initializedDrinksRouting
+import com.typesafe.config.ConfigFactory
+import io.ktor.server.config.*
 
 fun main() {
     embeddedServer(Netty, port = 9999, host = "0.0.0.0", module = Application::module)
@@ -14,15 +16,16 @@ fun main() {
 }
 
 fun Application.module() {
-    configureSerialization()
     configureRouting()
+    configureSerialization()
     initializedCafeRouting()
-    initializedDrinksRouting()
-    initializedCategoryRouting()
-    initializedReviewsRouting()
-    initializedFavoriteRouting()
-    initializedPaymentMethodRouting()
     initializedCartRouting()
     initializedBillRouting()
-    initializedAuthenticationRouting()
+    initializedDrinksRouting()
+    initializedReviewsRouting()
+    initializedFavoriteRouting()
+    initializedCategoryRouting()
+    initializedPaymentMethodRouting()
+    val config by lazy { HoconApplicationConfig(ConfigFactory.load()) }
+    initializedAuthenticationRouting(config)
 }

@@ -10,4 +10,6 @@ class AuthenticationController(
 
     override fun register(user: UserDTO): Boolean? = repository.register(user)
 
+    override fun login(username: String, password: String): Boolean? = repository.login(username, password)
+
 }

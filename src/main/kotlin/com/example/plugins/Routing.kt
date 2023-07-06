@@ -5,6 +5,7 @@ import com.example.route.*
 import io.ktor.server.routing.*
 import io.ktor.server.response.*
 import io.ktor.server.application.*
+import io.ktor.server.config.*
 
 fun Application.configureRouting() {
     routing {
@@ -46,6 +47,6 @@ fun Application.configureBillRouting(controller: BillController) {
     configureBillRoutes(controller)
 }
 
-fun Application.configureAuthenticationRouting(controller: AuthenticationController) {
-    configureAuthenticationRoutes(controller)
+fun Application.configureAuthenticationRouting(controller: AuthenticationController,  config: HoconApplicationConfig) {
+    configureAuthenticationRoutes(controller, config)
 }

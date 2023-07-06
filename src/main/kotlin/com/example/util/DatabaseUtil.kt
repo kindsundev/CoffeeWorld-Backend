@@ -79,7 +79,6 @@ fun QueryRowSet.toUserModel(): UserModel {
     return UserModel(
         id = this[UserEntity.id]!!,
         username = this[UserEntity.name]!!,
-        password = this[UserEntity.password]!!,
         image = this[UserEntity.image],
         email = this[UserEntity.email]!!,
         name = this[UserEntity.name]!!,

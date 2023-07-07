@@ -7,11 +7,14 @@ import com.example.response.ApiResponse
 import com.example.util.TokenManagerUtil
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.config.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
+import java.util.concurrent.TimeUnit
 
 private val logger by lazy { LoggerFactory.getLogger("AuthRoutes") }
 
@@ -66,5 +69,43 @@ fun Application.configureAuthenticationRoutes(controller: AuthenticationControll
                 }
             }
         }
+
+        /*
+        * If config value is in jwt(value) then authenticate will become authenticate(value).
+        * Because it will override realm name in config.
+        * */
+        authenticate {
+            route("/verify-token") {
+                get {
+                    val principal = call.principal<JWTPrincipal>()
+                    val message = principal?.let {
+                        val username = it.payload.getClaim("username").asString()
+                        val expiresAt = it.expiresAt?.time?.minus(System.currentTimeMillis())
+                        val seconds = TimeUnit.MILLISECONDS.toSeconds(expiresAt ?: 0)
+                        val minutes = TimeUnit.MILLISECONDS.toMinutes(expiresAt ?: 0)
+                        val hours = TimeUnit.MILLISECONDS.toHours(expiresAt ?: 0)
+                        val days = TimeUnit.MILLISECONDS.toDays(expiresAt ?: 0)
+                        val timeString = when {
+                            seconds <= 59 -> "$seconds seconds"
+                            minutes <= 59 -> "$minutes minutes"
+                            hours <= 23 -> "$hours hours"
+                            else -> "$days days"
+                        }
+                        if (expiresAt != null && expiresAt <= 0) {
+                            "Hello $username! Token is expired."
+                        } else {
+                            "Hello $username! Token is expired at $timeString"
+                        }
+                    } ?: "Unauthorized"
+                    if (principal == null) {
+                        call.respond(HttpStatusCode.Unauthorized, ApiResponse.Error(message))
+                    } else {
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(message))
+                    }
+                }
+            }
+        }
+
+
     }
 }

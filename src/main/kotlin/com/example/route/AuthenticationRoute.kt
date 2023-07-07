@@ -1,11 +1,10 @@
 package com.example.route
 
 import com.example.controller.AuthenticationController
-import com.example.data.dto.AuthenticationDTO
+import com.example.data.dto.UserCredentialsDTO
 import com.example.data.dto.UserDTO
 import com.example.response.ApiResponse
 import com.example.util.TokenManagerUtil
-import com.typesafe.config.ConfigFactory
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.config.*
@@ -45,7 +44,7 @@ fun Application.configureAuthenticationRoutes(controller: AuthenticationControll
 
         route("/login") {
             post {
-                val auth = call.receive<AuthenticationDTO>()
+                val auth = call.receive<UserCredentialsDTO>()
                 try {
                     when(controller.login(auth.username, auth.password)) {
                         true -> {

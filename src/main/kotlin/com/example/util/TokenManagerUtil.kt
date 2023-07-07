@@ -32,11 +32,10 @@ class TokenManagerUtil private constructor(config: HoconApplicationConfig) {
             .sign(Algorithm.HMAC256(secret))
     }
 
-    fun verifyJWTToken(username: String): JWTVerifier {
+    fun verifyJWTToken(): JWTVerifier {
         return JWT.require(Algorithm.HMAC256(secret))
             .withAudience(audience)
             .withIssuer(issuer)
-            .withClaim("username", username)
             .build()
     }
 }

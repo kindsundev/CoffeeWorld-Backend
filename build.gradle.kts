@@ -23,10 +23,10 @@ repositories {
 
 dependencies {
     implementation("org.ktorm:ktorm-core:3.6.0")
-    implementation("mysql:mysql-connector-java:8.0.33")
-    implementation("io.ktor:ktor-auth:1.6.8")
-    implementation("io.ktor:ktor-auth-jwt:1.6.8")
     implementation("org.mindrot:jbcrypt:0.4")
+    implementation("mysql:mysql-connector-java:8.0.33")
+    implementation("io.ktor:ktor-server-auth:$ktor_version")
+    implementation("io.ktor:ktor-server-auth-jwt:$ktor_version")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")

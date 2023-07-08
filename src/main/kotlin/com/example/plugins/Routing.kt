@@ -7,7 +7,7 @@ import io.ktor.server.response.*
 import io.ktor.server.application.*
 import io.ktor.server.config.*
 
-fun Application.configureRouting() {
+fun Application.configureWelcomeRouting() {
     routing {
         get("/") {
             call.respondText("Welcome to Coffee World!")
@@ -47,6 +47,6 @@ fun Application.configureBillRouting(controller: BillController) {
     configureBillRoutes(controller)
 }
 
-fun Application.configureAuthenticationRouting(controller: AuthenticationController,  config: HoconApplicationConfig) {
-    configureAuthenticationRoutes(controller, config)
+fun Application.configureAuthRouting(controller: AuthController,  config: HoconApplicationConfig) {
+    configureAuthRoutes(controller, config)
 }

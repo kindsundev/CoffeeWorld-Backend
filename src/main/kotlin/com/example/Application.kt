@@ -18,8 +18,9 @@ fun main() {
 fun Application.module() {
     val config by lazy { HoconApplicationConfig(ConfigFactory.load()) }
     configureAuthentication(config)
-    configureRouting()
+    configureWelcomeRouting()
     configureSerialization()
+    initializedAuthRouting(config)
     initializedCafeRouting()
     initializedCartRouting()
     initializedBillRouting()
@@ -28,5 +29,4 @@ fun Application.module() {
     initializedFavoriteRouting()
     initializedCategoryRouting()
     initializedPaymentMethodRouting()
-    initializedAuthenticationRouting(config)
 }

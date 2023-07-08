@@ -1,8 +1,8 @@
 package com.example.route
 
 import com.example.controller.AuthenticationController
-import com.example.data.dto.UserCredentialsDTO
-import com.example.data.dto.UserDTO
+import com.example.data.dto.LoginDTO
+import com.example.data.dto.RegisterDTO
 import com.example.response.ApiResponse
 import com.example.util.TokenManagerUtil
 import io.ktor.http.*
@@ -22,7 +22,7 @@ fun Application.configureAuthenticationRoutes(controller: AuthenticationControll
     routing {
         route("/register") {
             post {
-                val userRequest = call.receive<UserDTO>()
+                val userRequest = call.receive<RegisterDTO>()
                 try {
                     when (controller.register(userRequest)) {
                         true -> {
@@ -47,11 +47,11 @@ fun Application.configureAuthenticationRoutes(controller: AuthenticationControll
 
         route("/login") {
             post {
-                val auth = call.receive<UserCredentialsDTO>()
+                val userRequest = call.receive<LoginDTO>()
                 try {
-                    when(controller.login(auth.username, auth.password)) {
+                    when(controller.login(userRequest)) {
                         true -> {
-                            val token = TokenManagerUtil.getInstance(config).generateJWTToken(auth.username)
+                            val token = TokenManagerUtil.getInstance(config).generateJWTToken(userRequest.username)
                             call.respond(HttpStatusCode.OK, ApiResponse.Success(token))
                         }
                         false -> {

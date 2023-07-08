@@ -1,12 +1,13 @@
 package com.example.contract
 
-import com.example.data.dto.UserDTO
-import com.example.data.model.UserModel
+import com.example.data.dto.LoginDTO
+import com.example.data.dto.RegisterDTO
+
 
 interface AuthenticationContract {
 
-    fun register(user: UserDTO): Boolean?
+    fun register(user: RegisterDTO): Boolean?
 
-    fun login(username: String, password: String): Boolean?
+    fun login(user: LoginDTO): Boolean?
 
 }

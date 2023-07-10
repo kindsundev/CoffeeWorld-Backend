@@ -11,7 +11,7 @@ class LoginRepository(
 ) {
 
     // the main validation will be on the client (mobile app)
-    fun invalidCredentials(user: LoginDTO): Boolean {
+    fun isInvalidCredentials(user: LoginDTO): Boolean {
         return user.username.length < 4 || user.password.length < 8
     }
 

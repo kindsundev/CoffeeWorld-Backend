@@ -12,7 +12,7 @@ class RegisterRepository(
 ) {
 
     // the main validation will be on the client (mobile app)
-    fun invalidCredentials(user: RegisterDTO): Boolean {
+    fun isInvalidCredentials(user: RegisterDTO): Boolean {
         return (user.username.length < 4) || (user.password.length < 8) ||
                 (user.email.isEmpty()) || (user.name.isEmpty())
     }

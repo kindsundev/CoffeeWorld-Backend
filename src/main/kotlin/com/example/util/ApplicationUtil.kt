@@ -59,7 +59,8 @@ fun Application.initializedBillRouting() {
 fun Application.initializedAuthRouting(config: HoconApplicationConfig) {
     val login = LoginRepository(database)
     val register = RegisterRepository(database)
-    val repository = AuthRepository(login, register)
+    val password = PasswordRepository(database)
+    val repository = AuthRepository(login, register, password, config)
     val controller = AuthController(repository)
     configureAuthRouting(controller, config)
 }

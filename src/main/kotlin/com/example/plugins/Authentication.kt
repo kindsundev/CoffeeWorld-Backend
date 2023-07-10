@@ -9,7 +9,7 @@ import io.ktor.server.config.*
 fun Application.configureAuthentication(config: HoconApplicationConfig) {
     install(Authentication) {
         jwt {
-            realm = config.config("ktor").config("token").property("realm").getString()
+            realm = config.property("ktor.jwt.realm").getString()
             verifier(TokenManagerUtil.getInstance(config).verifyJWTToken())
             validate { credential ->
                 if (credential.payload.getClaim("username").asString() != "") {

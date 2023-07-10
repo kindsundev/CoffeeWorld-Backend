@@ -1,6 +1,7 @@
 package com.example.contract
 
 import com.example.data.dto.LoginDTO
+import com.example.data.dto.AuthDTO
 import com.example.data.dto.RegisterDTO
 
 interface AuthContract {
@@ -8,6 +9,6 @@ interface AuthContract {
 
     fun registerUser(user: RegisterDTO): String
 
-    fun forgotPassword(username: String, email: String): String?
+    fun forgotPassword(authInfo: AuthDTO): String
 
 }

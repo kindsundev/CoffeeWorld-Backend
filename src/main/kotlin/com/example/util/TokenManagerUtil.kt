@@ -8,9 +8,9 @@ import java.time.Instant
 import java.util.Date
 
 class TokenManagerUtil private constructor(config: HoconApplicationConfig) {
-    private val audience = config.config("ktor").config("token").property("audience").getString()
-    private val issuer = config.config("ktor").config("token").property("issuer").getString()
-    private val secret = config.config("ktor").config("token").property("secret").getString()
+    private val audience = config.property("ktor.jwt.audience").getString()
+    private val issuer = config.property("ktor.jwt.issuer").getString()
+    private val secret = config.property("ktor.jwt.secret").getString()
     private val expirationTime = Date.from(Instant.now().plusSeconds(7 * 24 * 60 * 60))
 
     companion object {

@@ -78,7 +78,7 @@ fun QueryRowSet.toReviewsModel(): ReviewsModel {
 fun QueryRowSet.toUserModel(): UserModel {
     return UserModel(
         id = this[UserEntity.id]!!,
-        username = this[UserEntity.name]!!,
+        username = this[UserEntity.username]!!,
         image = this[UserEntity.image],
         email = this[UserEntity.email]!!,
         name = this[UserEntity.name]!!,

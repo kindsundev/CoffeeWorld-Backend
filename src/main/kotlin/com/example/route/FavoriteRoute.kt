@@ -5,6 +5,7 @@ import com.example.data.dto.FavoriteDTO
 import com.example.response.ApiResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -38,40 +39,42 @@ fun Application.configureFavoriteRoutes(controller: FavoriteController) {
                 }
             }
 
-            post {
-                val favoriteRequest = call.receive<FavoriteDTO>()
-                try {
-                    controller.createFavorite(favoriteRequest)
-                    call.respond(HttpStatusCode.Created, ApiResponse.Success("Added drinks to favorite"))
-                } catch (e: Exception) {
-                    logger.error("Error at create favorite", e)
-                    call.respond(
-                        HttpStatusCode.InternalServerError,
-                        ApiResponse.Error("An error occurred, please try again later")
-                    )
-                }
-            }
-
-            delete("/{id}") {
-                val id = call.parameters["id"]?.toIntOrNull()
-                if (id == null) {
-                    call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Id cannot be null"))
-                    return@delete
-                }
-
-                try {
-                    val deleted = controller.deleteFavorite(id)
-                    if (deleted) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success("Deleted drinks from favorite"))
-                    } else {
-                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found drinks in favorite"))
+            authenticate {
+                post {
+                    val favoriteRequest = call.receive<FavoriteDTO>()
+                    try {
+                        controller.createFavorite(favoriteRequest)
+                        call.respond(HttpStatusCode.Created, ApiResponse.Success("Added drinks to favorite"))
+                    } catch (e: Exception) {
+                        logger.error("Error at create favorite", e)
+                        call.respond(
+                            HttpStatusCode.InternalServerError,
+                            ApiResponse.Error("An error occurred, please try again later")
+                        )
                     }
-                } catch (e: Exception) {
-                    logger.error("Error at delete favorite", e)
-                    call.respond(
-                        HttpStatusCode.InternalServerError,
-                        ApiResponse.Error("An error occurred, please try again later")
-                    )
+                }
+
+                delete("/{id}") {
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Id cannot be null"))
+                        return@delete
+                    }
+
+                    try {
+                        val deleted = controller.deleteFavorite(id)
+                        if (deleted) {
+                            call.respond(HttpStatusCode.OK, ApiResponse.Success("Deleted drinks from favorite"))
+                        } else {
+                            call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found drinks in favorite"))
+                        }
+                    } catch (e: Exception) {
+                        logger.error("Error at delete favorite", e)
+                        call.respond(
+                            HttpStatusCode.InternalServerError,
+                            ApiResponse.Error("An error occurred, please try again later")
+                        )
+                    }
                 }
             }
         }

@@ -5,6 +5,7 @@ import com.example.data.dto.BillDTO
 import com.example.response.ApiResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -36,20 +37,22 @@ fun Application.configureBillRoutes(controller: BillController) {
                 }
             }
 
-            post {
-                val billRequest = call.receive<BillDTO>()
-                try {
-                    val bill = controller.createBill(billRequest)
-                    if (bill != null) {
-                        call.respond(HttpStatusCode.Created, ApiResponse.Success(bill))
-                    } else {
-                        call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Please check your cart before creating a bill"))
+            authenticate {
+                post {
+                    val billRequest = call.receive<BillDTO>()
+                    try {
+                        val bill = controller.createBill(billRequest)
+                        if (bill != null) {
+                            call.respond(HttpStatusCode.Created, ApiResponse.Success(bill))
+                        } else {
+                            call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Please check your cart before creating a bill"))
+                        }
+                    } catch (e: Exception) {
+                        logger.error("Error at create bill", e)
+                        call.respond(
+                            HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
+                        )
                     }
-                } catch (e: Exception) {
-                    logger.error("Error at create bill", e)
-                    call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
-                    )
                 }
             }
         }

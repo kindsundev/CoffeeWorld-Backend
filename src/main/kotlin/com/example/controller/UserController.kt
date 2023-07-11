@@ -32,6 +32,8 @@ class UserController(
         return repository.authAndUpdateEmail(authEmail)
     }
 
-    override fun updateAvatar(image: ByteArray) = repository.updateAvatar(image)
+    override fun updateAvatar(username: String, base64: String): Boolean {
+        return repository.updateAvatar(username, base64)
+    }
 
 }

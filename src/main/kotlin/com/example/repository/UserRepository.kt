@@ -22,8 +22,11 @@ class UserRepository(
             .firstOrNull()
     }
 
-    fun updateAvatar(image: ByteArray) {
-        TODO("Handle after update database type")
+    fun updateAvatar(username: String, base64: String): Boolean {
+        return database.update(UserEntity) {
+            set(UserEntity.image, base64)
+            where { UserEntity.username eq username }
+        } > 0
     }
 
     fun updateName(username: String, name: String): Boolean {

@@ -112,6 +112,30 @@ fun Application.configureUserRoutes(controller: UserController) {
                     }
                 }
 
+                put("/avatar/{username}") {
+                    val username = call.parameters["username"].toString()
+                    val base64 = call.receiveText()
+                    if (username.isEmpty() || base64.isEmpty()) {
+                        val message = if (username.isEmpty()) "Username cannot be null" else "Base64 cannot be null or empty"
+                        call.respond(HttpStatusCode.BadRequest, ApiResponse.Error(message))
+                        return@put
+                    }
+
+                    try {
+                        val result = controller.updateAvatar(username, base64)
+                        if (result) {
+                            call.respond(HttpStatusCode.OK, ApiResponse.Success("Update avatar success"))
+                        } else {
+                            call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Update avatar failed"))
+                        }
+                    } catch (e: Exception) {
+                        logger.error("Error at update avatar", e)
+                        call.respond(
+                            HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
+                        )
+                    }
+                }
+
                 put("/email") {
                     val request = call.receive<EmailDTO>()
                     if (request.username.isEmpty()) {
@@ -172,10 +196,6 @@ fun Application.configureUserRoutes(controller: UserController) {
                         logger.error("Error at update password", e)
                         call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later"))
                     }
-                }
-
-                put("/image") {
-
                 }
             }
         }

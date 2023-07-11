@@ -65,3 +65,8 @@ fun Application.initializedAuthRouting(config: HoconApplicationConfig) {
     configureAuthRouting(controller, config)
 }
 
+fun Application.initializedUserRouting() {
+    val repository = UserRepository(database)
+    val controller = UserController(repository)
+    configureUserRouting(controller)
+}

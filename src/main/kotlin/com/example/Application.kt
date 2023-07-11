@@ -21,6 +21,7 @@ fun Application.module() {
     configureWelcomeRouting()
     configureSerialization()
     initializedAuthRouting(config)
+    initializedUserRouting()
     initializedCafeRouting()
     initializedCartRouting()
     initializedBillRouting()

@@ -50,3 +50,7 @@ fun Application.configureBillRouting(controller: BillController) {
 fun Application.configureAuthRouting(controller: AuthController,  config: HoconApplicationConfig) {
     configureAuthRoutes(controller, config)
 }
+
+fun Application.configureUserRouting(controller: UserController) {
+    configureUserRoutes(controller)
+}

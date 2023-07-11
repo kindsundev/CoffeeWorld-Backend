@@ -10,7 +10,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
 
-private val logger by lazy { LoggerFactory.getLogger("ReviewsRoutes") }
+private val logger by lazy { LoggerFactory.getLogger("com.example.route.FavoriteRouteKt") }
 
 fun Application.configureFavoriteRoutes(controller: FavoriteController) {
     routing {
@@ -31,7 +31,10 @@ fun Application.configureFavoriteRoutes(controller: FavoriteController) {
                     }
                 } catch (e: Exception) {
                     logger.error("Error at get favorite drinks by user_id", e)
-                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("Something error"))
+                    call.respond(
+                        HttpStatusCode.InternalServerError,
+                        ApiResponse.Error("An error occurred, please try again later")
+                    )
                 }
             }
 
@@ -43,7 +46,8 @@ fun Application.configureFavoriteRoutes(controller: FavoriteController) {
                 } catch (e: Exception) {
                     logger.error("Error at create favorite", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error("Failed to create favorite")
+                        HttpStatusCode.InternalServerError,
+                        ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }
@@ -64,7 +68,10 @@ fun Application.configureFavoriteRoutes(controller: FavoriteController) {
                     }
                 } catch (e: Exception) {
                     logger.error("Error at delete favorite", e)
-                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("Failed to delete favorite"))
+                    call.respond(
+                        HttpStatusCode.InternalServerError,
+                        ApiResponse.Error("An error occurred, please try again later")
+                    )
                 }
             }
         }

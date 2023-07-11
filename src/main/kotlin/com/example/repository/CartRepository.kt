@@ -40,12 +40,12 @@ class CartRepository(
     }
 
 
-    fun createCart(cart: CartDTO) {
-        database.insert(CartEntity) {
+    fun createCart(cart: CartDTO): Boolean {
+        return database.insert(CartEntity) {
             set(CartEntity.userId, cart.userId)
             set(CartEntity.name, cart.name)
             set(CartEntity.date, cart.date)
-        }
+        } > 0
     }
 
     fun deleteCart(id: Int): Boolean {
@@ -55,12 +55,12 @@ class CartRepository(
         } > 0
     }
 
-    fun insertItemToCart(item: CartItemDTO) {
-        database.insert(CartItemEntity) {
+    fun insertItemToCart(item: CartItemDTO): Boolean {
+        return database.insert(CartItemEntity) {
             set(CartItemEntity.cartId, item.cartId)
             set(CartItemEntity.drinksId, item.drinksId)
             set(CartItemEntity.quantity, item.quantity)
-        }
+        } > 0
     }
 
     fun deleteItemFromCart(id: Int): Boolean {

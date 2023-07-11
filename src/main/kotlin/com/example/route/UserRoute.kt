@@ -13,7 +13,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
 
-private val logger by lazy { LoggerFactory.getLogger("UerRoutes") }
+private val logger by lazy { LoggerFactory.getLogger("com.example.route.UserRouteKt") }
 
 fun Application.configureUserRoutes(controller: UserController) {
     routing {
@@ -128,7 +128,7 @@ fun Application.configureUserRoutes(controller: UserController) {
                                 call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Incorrect password"))
                             }
                             Constants.EMAIL_EXIST -> {
-                                call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Email already exist"))
+                                call.respond(HttpStatusCode.Conflict, ApiResponse.Error("Email already exist"))
                             }
                             Constants.UPDATE_EMAIL_FAILED -> {
                                 call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("Failed to update email"))

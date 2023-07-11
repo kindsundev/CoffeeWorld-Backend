@@ -8,7 +8,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
 
-private val logger by lazy { LoggerFactory.getLogger("PaymentMethodRoutes") }
+private val logger by lazy { LoggerFactory.getLogger("com.example.route.PaymentMethodRouteKt") }
 
 fun Application.configurePaymentMethodRoutes(controller: PaymentMethodController) {
     routing {
@@ -24,7 +24,7 @@ fun Application.configurePaymentMethodRoutes(controller: PaymentMethodController
                 } catch (e: Exception) {
                     logger.error("Error at get payment method", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error("Something error")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }

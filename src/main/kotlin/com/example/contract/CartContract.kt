@@ -8,11 +8,11 @@ interface CartContract {
 
     fun getCartByUserId(userId: Int): List<CartModel>
 
-    fun createCart(cart: CartDTO)
+    fun createCart(cart: CartDTO): Boolean
 
     fun deleteCart(id: Int): Boolean
 
-    fun insertItemToCart( item: CartItemDTO)
+    fun insertItemToCart( item: CartItemDTO): Boolean
 
     fun deleteItemFromCart(id: Int) : Boolean
 

@@ -9,4 +9,14 @@
     </root>
     <logger name="org.eclipse.jetty" level="INFO"/>
     <logger name="io.netty" level="INFO"/>
+    <logger name="com.example.route.AuthRouteKt" level="ERROR"/>
+    <logger name="com.example.route.BillRouteKt" level="ERROR"/>
+    <logger name="com.example.route.CafeRouteKt" level="ERROR"/>
+    <logger name="com.example.route.CartRouteKt" level="ERROR"/>
+    <logger name="com.example.route.CategoryRouteKt" level="ERROR"/>
+    <logger name="com.example.route.DrinksRouteKt" level="ERROR"/>
+    <logger name="com.example.route.FavoriteRouteKt" level="ERROR"/>
+    <logger name="com.example.route.PaymentMethodRouteKt" level="ERROR"/>
+    <logger name="com.example.route.ReviewsRouteKt" level="ERROR"/>
+    <logger name="com.example.route.UserRouteKt" level="ERROR"/>
 </configuration>

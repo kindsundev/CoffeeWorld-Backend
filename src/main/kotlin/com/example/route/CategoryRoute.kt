@@ -8,7 +8,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
 
-private val logger by lazy { LoggerFactory.getLogger("CategoryRoutes") }
+private val logger by lazy { LoggerFactory.getLogger("com.example.route.CategoryRouteKt") }
 
 fun Application.configureCategoryRoutes(controller: CategoryController) {
     routing {
@@ -20,12 +20,12 @@ fun Application.configureCategoryRoutes(controller: CategoryController) {
                     if (list.isNotEmpty()) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
                     } else {
-                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found list categories"))
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found category list"))
                     }
                 } catch (e: Exception) {
-                    logger.error("Error at get list categories", e)
+                    logger.error("Error at get categories", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error("Something error")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }
@@ -41,14 +41,12 @@ fun Application.configureCategoryRoutes(controller: CategoryController) {
                     if (cafe != null) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(cafe))
                     } else {
-                        call.respond(
-                            HttpStatusCode.NotFound, ApiResponse.Error("Not found cafe")
-                        )
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found cafe"))
                     }
                 } catch (e: Exception) {
                     logger.error("Error at get category by id", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error("Something error")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }

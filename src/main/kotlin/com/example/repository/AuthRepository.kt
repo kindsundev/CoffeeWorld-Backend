@@ -4,7 +4,6 @@ import com.example.data.dto.LoginDTO
 import com.example.data.dto.RegisterDTO
 import com.example.common.Constants
 import com.example.data.dto.AuthDTO
-import com.example.service.EmailService
 import io.ktor.server.config.*
 import org.mindrot.jbcrypt.BCrypt
 
@@ -41,7 +40,7 @@ class AuthRepository(
                     Constants.SEND_EMAIL_FAILED
                 }
             } else {
-                Constants.SQL_ERROR
+                Constants.UPDATE_PASSWORD_FAILED
             }
         }
         return Constants.INVALID_USER_DATA

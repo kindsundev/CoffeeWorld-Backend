@@ -50,14 +50,6 @@ fun QueryRowSet.toDrinksModel(): DrinksModel {
     )
 }
 
-fun QueryRowSet.toFavoriteModel(): FavoriteModel {
-    return FavoriteModel(
-        id = this[FavoriteEntity.id]!!,
-        userId = this[FavoriteEntity.userId]!!,
-        drinksId = this[FavoriteEntity.drinksId]!!
-    )
-}
-
 fun QueryRowSet.toPaymentMethodModel(): PaymentMethodModel {
     return PaymentMethodModel(
         id = this[PaymentMethodEntity.id]!!,

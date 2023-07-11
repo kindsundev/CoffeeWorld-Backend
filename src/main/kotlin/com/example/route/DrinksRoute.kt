@@ -9,7 +9,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
 
-private val logger by lazy { LoggerFactory.getLogger("DrinksRoutes") }
+private val logger by lazy { LoggerFactory.getLogger("com.example.route.DrinksRouteKt") }
 
 fun Application.configureDrinksRoute(controller: DrinksController) {
     routing {
@@ -26,7 +26,7 @@ fun Application.configureDrinksRoute(controller: DrinksController) {
                 } catch (e: Exception) {
                     logger.error("Error at get list drinks", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error("Something error")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }
@@ -49,7 +49,7 @@ fun Application.configureDrinksRoute(controller: DrinksController) {
                 } catch (e: Exception) {
                     logger.error("Error at get drinks by id", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error("Something error")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }
@@ -80,7 +80,7 @@ fun Application.configureDrinksRoute(controller: DrinksController) {
                 } catch (e: Exception) {
                     logger.error("Error at update quantity", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error("Something error")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }

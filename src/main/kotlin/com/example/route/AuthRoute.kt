@@ -16,7 +16,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
 
-private val logger by lazy { LoggerFactory.getLogger("AuthRoutes") }
+private val logger by lazy { LoggerFactory.getLogger("com.example.route.AuthRouteKt") }
 
 fun Application.configureAuthRoutes(controller: AuthController, config: HoconApplicationConfig) {
     routing {
@@ -29,28 +29,23 @@ fun Application.configureAuthRoutes(controller: AuthController, config: HoconApp
                         Constants.INVALID_USER_DATA -> {
                             call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Invalid user data"))
                         }
-
                         Constants.USERNAME_EXIST -> {
-                            call.respond(HttpStatusCode.Conflict, ApiResponse.Error("Username already exist"))
+                            call.respond(HttpStatusCode.Conflict, ApiResponse.Error("Username already exists"))
                         }
-
                         Constants.EMAIL_EXIST -> {
-                            call.respond(HttpStatusCode.Conflict, ApiResponse.Error("Email already exist"))
+                            call.respond(HttpStatusCode.Conflict, ApiResponse.Error("Email already exists"))
                         }
-
                         Constants.REGISTER_FAILED -> {
-                            call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Register account failed"))
+                            call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Account registration failed"))
                         }
-
                         else -> {
-                            call.respond(HttpStatusCode.OK, ApiResponse.Success("Register account successfully"))
+                            call.respond(HttpStatusCode.OK, ApiResponse.Success("Successful account registration"))
                         }
                     }
                 } catch (e: Exception) {
                     logger.error("Error at register user", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError,
-                        ApiResponse.Error("An error occurred, please try again later")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }
@@ -63,11 +58,9 @@ fun Application.configureAuthRoutes(controller: AuthController, config: HoconApp
                             val token = TokenManagerUtil.getInstance(config).generateJWTToken(request.username)
                             call.respond(HttpStatusCode.OK, ApiResponse.Success(token))
                         }
-
                         false -> {
-                            call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Password is incorrect"))
+                            call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Incorrect password"))
                         }
-
                         else -> {
                             call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Invalid user data"))
                         }
@@ -75,8 +68,7 @@ fun Application.configureAuthRoutes(controller: AuthController, config: HoconApp
                 } catch (e: Exception) {
                     logger.error("Error at login user", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError,
-                        ApiResponse.Error("An error occurred, please try again later")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }
@@ -89,11 +81,11 @@ fun Application.configureAuthRoutes(controller: AuthController, config: HoconApp
                             Constants.INVALID_USER_DATA -> {
                                 call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Invalid user data"))
                             }
-                            Constants.SQL_ERROR -> {
-                                call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Update password error"))
+                            Constants.UPDATE_PASSWORD_FAILED -> {
+                                call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Password update failed"))
                             }
                             Constants.SEND_EMAIL_FAILED -> {
-                                call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Failed to send email"))
+                                call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Can't send email"))
                             }
                             else -> {
                                 call.respond(

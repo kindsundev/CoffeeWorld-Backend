@@ -8,7 +8,6 @@ object Constants {
     const val REGISTER_SUCCESS = "register_success"
     const val SEND_EMAIL_SUCCESS = "send_email_success"
     const val SEND_EMAIL_FAILED = "send_email_failed"
-    const val SQL_ERROR = "sql_error"
     const val AUTH_FAILED = "auth_failed"
     const val INCORRECT_PASSWORD = "incorrect_password"
     const val WARN_PASSWORD_LENGTH ="warn_password_length"

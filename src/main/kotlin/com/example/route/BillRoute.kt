@@ -10,7 +10,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
 
-private val logger by lazy { LoggerFactory.getLogger("BillRoutes") }
+private val logger by lazy { LoggerFactory.getLogger("com.example.route.BillRouteKt") }
 
 fun Application.configureBillRoutes(controller: BillController) {
     routing {
@@ -26,14 +26,12 @@ fun Application.configureBillRoutes(controller: BillController) {
                     if (bill.isNotEmpty()) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(bill))
                     } else {
-                        call.respond(
-                            HttpStatusCode.NotFound, ApiResponse.Error("Not found bill")
-                        )
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found bill"))
                     }
                 } catch (e: Exception) {
                     logger.error("Error at get bill by user_id", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error("Something error")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }
@@ -45,12 +43,12 @@ fun Application.configureBillRoutes(controller: BillController) {
                     if (bill != null) {
                         call.respond(HttpStatusCode.Created, ApiResponse.Success(bill))
                     } else {
-                        call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Please check cart before create bill"))
+                        call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Please check your cart before creating a bill"))
                     }
                 } catch (e: Exception) {
                     logger.error("Error at create bill", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error("Failed to create bill")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }

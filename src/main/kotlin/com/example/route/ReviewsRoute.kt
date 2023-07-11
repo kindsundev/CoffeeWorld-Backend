@@ -10,7 +10,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
 
-private val logger by lazy { LoggerFactory.getLogger("ReviewsRoutes") }
+private val logger by lazy { LoggerFactory.getLogger("com.example.route.ReviewsRouteKt") }
 
 fun Application.configureReviewsRoutes(controller: ReviewsController) {
     routing {
@@ -31,7 +31,7 @@ fun Application.configureReviewsRoutes(controller: ReviewsController) {
                     }
                 } catch (e: Exception) {
                     logger.error("Error at get reviews by id", e)
-                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("Something error"))
+                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later"))
                 }
             }
 
@@ -50,7 +50,7 @@ fun Application.configureReviewsRoutes(controller: ReviewsController) {
                     }
                 } catch (e: Exception) {
                     logger.error("Error at get reviews by drinks_id", e)
-                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("Something error"))
+                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later"))
                 }
             }
 
@@ -62,7 +62,7 @@ fun Application.configureReviewsRoutes(controller: ReviewsController) {
                 } catch (e: Exception) {
                     logger.error("Error at create reviews", e)
                     call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error("Failed to create reviews")
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }
@@ -86,7 +86,7 @@ fun Application.configureReviewsRoutes(controller: ReviewsController) {
                     }
                 } catch (e: Exception) {
                     logger.error("Error at update reviews", e)
-                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("Failed to update reviews"))
+                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later"))
                 }
             }
 
@@ -106,7 +106,7 @@ fun Application.configureReviewsRoutes(controller: ReviewsController) {
                     }
                 } catch (e: Exception) {
                     logger.error("Error at delete reviews", e)
-                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("Failed to delete reviews"))
+                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later"))
                 }
             }
         }

@@ -12,11 +12,11 @@ class CartController(
 
     override fun getCartByUserId(userId: Int): List<CartModel> = repository.getCartByUserId(userId)
 
-    override fun createCart(cart: CartDTO) = repository.createCart(cart)
+    override fun createCart(cart: CartDTO): Boolean = repository.createCart(cart)
 
     override fun deleteCart(id: Int): Boolean = repository.deleteCart(id)
 
-    override fun insertItemToCart(item: CartItemDTO) = repository.insertItemToCart(item)
+    override fun insertItemToCart(item: CartItemDTO): Boolean = repository.insertItemToCart(item)
 
     override fun deleteItemFromCart(id: Int): Boolean = repository.deleteItemFromCart(id)
 

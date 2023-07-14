@@ -4,36 +4,35 @@ import com.example.contract.UserContract
 import com.example.data.dto.EmailDTO
 import com.example.data.dto.PasswordDTO
 import com.example.data.model.UserModel
-import com.example.repository.UserRepository
 
 class UserController(
-    private val repository: UserRepository
-) : UserContract {
+    private val user: UserContract
+) {
 
-    override fun getUser(username: String): UserModel? = repository.getUser(username)
+    fun getUser(username: String): UserModel? = user.getUser(username)
 
-    override fun updateName(username: String, name: String): Boolean {
-        return repository.updateName(username, name)
+    fun updateName(username: String, name: String): Boolean {
+        return user.updateName(username, name)
     }
 
-    override fun updateAddress(username: String, address: String): Boolean {
-        return  repository.updateAddress(username, address)
+    fun updateAddress(username: String, address: String): Boolean {
+        return user.updateAddress(username, address)
     }
 
-    override fun updatePhone(username: String, phone: String): Boolean {
-        return repository.updatePhone(username, phone)
+    fun updatePhone(username: String, phone: String): Boolean {
+        return user.updatePhone(username, phone)
     }
 
-    override fun updatePassword(authPassword: PasswordDTO): String {
-        return repository.authAndUpdatePassword(authPassword)
+    fun updatePassword(authPassword: PasswordDTO): String {
+        return user.authAndUpdatePassword(authPassword)
     }
 
-    override fun updateEmail(authEmail: EmailDTO): String {
-        return repository.authAndUpdateEmail(authEmail)
+    fun updateEmail(authEmail: EmailDTO): String {
+        return user.authAndUpdateEmail(authEmail)
     }
 
-    override fun updateAvatar(username: String, base64: String): Boolean {
-        return repository.updateAvatar(username, base64)
+    fun updateAvatar(username: String, base64: String): Boolean {
+        return user.updateAvatar(username, base64)
     }
 
 }

@@ -4,22 +4,21 @@ import com.example.contract.CartContract
 import com.example.data.dto.CartDTO
 import com.example.data.dto.CartItemDTO
 import com.example.data.model.CartModel
-import com.example.repository.CartRepository
 
 class CartController(
-    private val repository: CartRepository
-) : CartContract {
+    private val cart: CartContract
+) {
 
-    override fun getCartByUserId(userId: Int): List<CartModel> = repository.getCartByUserId(userId)
+    fun getCartByUserId(userId: Int): List<CartModel> = cart.getCartByUserId(userId)
 
-    override fun createCart(cart: CartDTO): Boolean = repository.createCart(cart)
+    fun createCart(cart: CartDTO): Boolean = this.cart.createCart(cart)
 
-    override fun deleteCart(id: Int): Boolean = repository.deleteCart(id)
+    fun deleteCart(id: Int): Boolean = cart.deleteCart(id)
 
-    override fun insertItemToCart(item: CartItemDTO): Boolean = repository.insertItemToCart(item)
+    fun insertItemToCart(item: CartItemDTO): Boolean = cart.insertItemToCart(item)
 
-    override fun deleteItemFromCart(id: Int): Boolean = repository.deleteItemFromCart(id)
+    fun deleteItemFromCart(id: Int): Boolean = cart.deleteItemFromCart(id)
 
-    override fun updateCartItemQuantity(id: Int, quantity: Int): Boolean = repository.updateCartItemQuantity(id, quantity)
+    fun updateCartItemQuantity(id: Int, quantity: Int): Boolean = cart.updateCartItemQuantity(id, quantity)
 
 }

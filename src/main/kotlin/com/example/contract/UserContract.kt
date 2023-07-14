@@ -14,9 +14,9 @@ interface UserContract {
 
     fun updatePhone(username: String, phone: String): Boolean
 
-    fun updatePassword(authPassword: PasswordDTO): String
+    fun authAndUpdatePassword(authPassword: PasswordDTO): String
 
-    fun updateEmail(authEmail: EmailDTO): String
+    fun authAndUpdateEmail(authEmail: EmailDTO): String
 
     fun updateAvatar(username: String, base64: String): Boolean
 

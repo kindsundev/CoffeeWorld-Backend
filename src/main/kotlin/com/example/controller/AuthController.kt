@@ -4,14 +4,13 @@ import com.example.contract.AuthContract
 import com.example.data.dto.LoginDTO
 import com.example.data.dto.AuthDTO
 import com.example.data.dto.RegisterDTO
-import com.example.repository.AuthRepository
 
 class AuthController(
-    private val repository: AuthRepository
-) : AuthContract {
-    override fun loginUser(user: LoginDTO): Boolean? = repository.loginUser(user)
+    private val auth: AuthContract
+){
+    fun loginUser(user: LoginDTO): Boolean? = auth.loginUser(user)
 
-    override fun registerUser(user: RegisterDTO): String = repository.registerUser(user)
+    fun registerUser(user: RegisterDTO): String = auth.registerUser(user)
 
-    override fun forgotPassword(authInfo: AuthDTO): String = repository.resetPasswordAndSendEmail(authInfo)
+    fun forgotPassword(authInfo: AuthDTO): String = auth.forgotPassword(authInfo)
 }

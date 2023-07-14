@@ -1,5 +1,6 @@
 package com.example.repository
 
+import com.example.contract.BillContract
 import com.example.data.dto.BillDTO
 import com.example.data.entity.BillEntity
 import com.example.data.entity.CartEntity
@@ -11,15 +12,16 @@ import org.ktorm.dsl.*
 
 class BillRepository(
     private val database: Database
-) {
-    fun getBillByUserId(userId: Int): List<BillModel> {
+) : BillContract {
+
+    override fun getBillByUserId(userId: Int): List<BillModel> {
         return database.from(BillEntity)
             .select()
             .where { BillEntity.userId eq userId }
             .map { it.toBillModel() }
     }
 
-    fun createBill(bill: BillDTO): BillModel? {
+    override fun createBill(bill: BillDTO): BillModel? {
         if (!checkUserCart(bill.userId, bill.cartId)) return null
         if (!saveBillToDatabase(bill)) return null
         return getBillByCartId(bill.cartId)

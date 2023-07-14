@@ -3,6 +3,7 @@ package com.example.repository
 import com.example.data.dto.LoginDTO
 import com.example.data.dto.RegisterDTO
 import com.example.common.Constants
+import com.example.contract.AuthContract
 import com.example.data.dto.AuthDTO
 import io.ktor.server.config.*
 import org.mindrot.jbcrypt.BCrypt
@@ -12,9 +13,9 @@ class AuthRepository(
     private val registerRepo: RegisterRepository,
     private val passwordRepo: PasswordRepository,
     private val config: HoconApplicationConfig
-) {
+) : AuthContract {
 
-    fun registerUser(user: RegisterDTO): String {
+    override fun registerUser(user: RegisterDTO): String {
         return when {
             registerRepo.isInvalidCredentials(user) -> Constants.INVALID_USER_DATA
             registerRepo.hasUsernameExist(user.username) -> Constants.USERNAME_EXIST
@@ -23,11 +24,11 @@ class AuthRepository(
         }
     }
 
-    fun loginUser(user: LoginDTO): Boolean? {
+    override fun loginUser(user: LoginDTO): Boolean? {
         return if (loginRepo.isInvalidCredentials(user)) null else loginRepo.authenticatePassword(user)
     }
 
-    fun resetPasswordAndSendEmail(authInfo: AuthDTO): String {
+    override fun forgotPassword(authInfo: AuthDTO): String {
         if (passwordRepo.isValidAuthInfo(authInfo)) {
             val newPassword = passwordRepo.generateRandomPassword()
             val hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt())

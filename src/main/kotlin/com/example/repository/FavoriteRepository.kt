@@ -1,5 +1,6 @@
 package com.example.repository
 
+import com.example.contract.FavoriteContract
 import com.example.data.dto.FavoriteDTO
 import com.example.data.entity.DrinksEntity
 import com.example.data.entity.FavoriteEntity
@@ -10,9 +11,9 @@ import org.ktorm.dsl.*
 
 class FavoriteRepository(
     private val database: Database
-) {
+) : FavoriteContract {
 
-    fun getListFavoriteDrinks(userId: Int): List<DrinksModel> {
+    override fun getListFavoriteDrinks(userId: Int): List<DrinksModel> {
         val favoriteDrinksIds = getListFavoriteDrinksId(userId)
 
         val favoriteDrinks = mutableListOf<DrinksModel>()
@@ -37,14 +38,14 @@ class FavoriteRepository(
             .filterNotNull()
     }
 
-    fun createFavorite(favorite: FavoriteDTO) {
+    override fun createFavorite(favorite: FavoriteDTO) {
         database.insert(FavoriteEntity) {
             set(FavoriteEntity.userId, favorite.userId)
             set(FavoriteEntity.drinksId, favorite.drinksId)
         }
     }
 
-    fun deleteFavorite(id: Int): Boolean {
+    override fun deleteFavorite(id: Int): Boolean {
         val deleteRow = database.delete(FavoriteEntity) {
             it.id eq id
         }

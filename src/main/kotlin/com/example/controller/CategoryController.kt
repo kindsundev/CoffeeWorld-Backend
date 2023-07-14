@@ -2,13 +2,12 @@ package com.example.controller
 
 import com.example.contract.CategoryContract
 import com.example.data.model.CategoryModel
-import com.example.repository.CategoryRepository
 
 class CategoryController(
-    private val repository: CategoryRepository
-) : CategoryContract {
-    override fun getListCategories(): List<CategoryModel> = repository.getListCategories()
+    private val category: CategoryContract
+) {
+    fun getListCategories(): List<CategoryModel> = category.getListCategories()
 
-    override fun getCategory(id: Int): CategoryModel? = repository.getCategory(id)
+    fun getCategory(id: Int): CategoryModel? = category.getCategory(id)
 
 }

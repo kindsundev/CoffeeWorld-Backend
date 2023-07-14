@@ -3,14 +3,13 @@ package com.example.controller
 import com.example.contract.BillContract
 import com.example.data.dto.BillDTO
 import com.example.data.model.BillModel
-import com.example.repository.BillRepository
 
 class BillController(
-    private val repository : BillRepository
-) : BillContract {
+    private val bill : BillContract
+) {
 
-    override fun getBillByUserId(userId: Int): List<BillModel> = repository.getBillByUserId(userId)
+    fun getBillByUserId(userId: Int): List<BillModel> = bill.getBillByUserId(userId)
 
-    override fun createBill(bill: BillDTO): BillModel? = repository.createBill(bill)
+    fun createBill(bill: BillDTO): BillModel? = this.bill.createBill(bill)
 
 }

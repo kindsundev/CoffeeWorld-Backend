@@ -1,5 +1,6 @@
 package com.example.repository
 
+import com.example.contract.PaymentMethodContract
 import com.example.data.entity.PaymentMethodEntity
 import com.example.data.model.PaymentMethodModel
 import com.example.util.toPaymentMethodModel
@@ -10,9 +11,9 @@ import org.ktorm.dsl.select
 
 class PaymentMethodRepository(
     private val database: Database
-) {
+): PaymentMethodContract {
 
-    fun getListPaymentMethods(): List<PaymentMethodModel> {
+    override fun getListPaymentMethods(): List<PaymentMethodModel> {
         return database.from(PaymentMethodEntity)
             .select()
             .map {

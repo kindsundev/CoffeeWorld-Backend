@@ -1,5 +1,6 @@
 package com.example.repository
 
+import com.example.contract.DrinksContract
 import com.example.data.entity.DrinksEntity
 import com.example.data.model.DrinksModel
 import com.example.util.toDrinksModel
@@ -8,8 +9,8 @@ import org.ktorm.dsl.*
 
 class DrinksRepository(
     private val database: Database
-) {
-    fun getListDrinks(): List<DrinksModel> {
+) : DrinksContract {
+    override fun getListDrinks(): List<DrinksModel> {
         val result = database.from(DrinksEntity)
             .select()
             .map {
@@ -18,7 +19,7 @@ class DrinksRepository(
         return result
     }
 
-    fun getDrinks(id: Int): DrinksModel? {
+    override fun getDrinks(id: Int): DrinksModel? {
         val result = database.from(DrinksEntity)
             .select()
             .where(DrinksEntity.id eq id)
@@ -28,7 +29,7 @@ class DrinksRepository(
         return result.firstOrNull()
     }
 
-    fun updateQuantityDrinks(id: Int, quantity: Int): Boolean {
+    override fun updateQuantityDrinks(id: Int, quantity: Int): Boolean {
         val currentQuantity = getCurrentQuantity(id)
         var updateRow = 0
 

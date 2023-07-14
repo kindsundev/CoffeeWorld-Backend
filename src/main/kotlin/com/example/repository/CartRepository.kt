@@ -1,5 +1,6 @@
 package com.example.repository
 
+import com.example.contract.CartContract
 import com.example.data.dto.CartDTO
 import com.example.data.dto.CartItemDTO
 import com.example.data.entity.CartEntity
@@ -11,9 +12,9 @@ import org.ktorm.dsl.*
 
 class CartRepository(
     private val database: Database
-) {
+) : CartContract {
 
-    fun getCartByUserId(userId: Int): List<CartModel> {
+    override fun getCartByUserId(userId: Int): List<CartModel> {
         val cartItems = database.from(CartItemEntity)
             .select()
             .map {
@@ -40,7 +41,7 @@ class CartRepository(
     }
 
 
-    fun createCart(cart: CartDTO): Boolean {
+    override fun createCart(cart: CartDTO): Boolean {
         return database.insert(CartEntity) {
             set(CartEntity.userId, cart.userId)
             set(CartEntity.name, cart.name)
@@ -48,14 +49,14 @@ class CartRepository(
         } > 0
     }
 
-    fun deleteCart(id: Int): Boolean {
+    override fun deleteCart(id: Int): Boolean {
         database.delete(CartItemEntity) { CartItemEntity.cartId eq id }
         return database.delete(CartEntity) {
             it.id eq id
         } > 0
     }
 
-    fun insertItemToCart(item: CartItemDTO): Boolean {
+    override fun insertItemToCart(item: CartItemDTO): Boolean {
         return database.insert(CartItemEntity) {
             set(CartItemEntity.cartId, item.cartId)
             set(CartItemEntity.drinksId, item.drinksId)
@@ -63,11 +64,11 @@ class CartRepository(
         } > 0
     }
 
-    fun deleteItemFromCart(id: Int): Boolean {
+    override fun deleteItemFromCart(id: Int): Boolean {
         return database.delete(CartItemEntity) { it.id eq id } > 0
     }
 
-    fun updateCartItemQuantity(id: Int, quantity: Int): Boolean {
+    override fun updateCartItemQuantity(id: Int, quantity: Int): Boolean {
         return database.update(CartItemEntity) {
             set(CartItemEntity.quantity, quantity)
             where { CartItemEntity.id eq id }

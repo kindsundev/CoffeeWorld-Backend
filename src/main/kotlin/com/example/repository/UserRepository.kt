@@ -1,6 +1,7 @@
 package com.example.repository
 
 import com.example.common.Constants
+import com.example.contract.UserContract
 import com.example.data.dto.EmailDTO
 import com.example.data.dto.PasswordDTO
 import com.example.data.entity.UserEntity
@@ -12,9 +13,9 @@ import org.mindrot.jbcrypt.BCrypt
 
 class UserRepository(
     private val database: Database
-) {
+) : UserContract {
 
-    fun getUser(username: String): UserModel? {
+    override fun getUser(username: String): UserModel? {
         return database.from(UserEntity)
             .select()
             .where { UserEntity.username eq username }
@@ -22,35 +23,35 @@ class UserRepository(
             .firstOrNull()
     }
 
-    fun updateAvatar(username: String, base64: String): Boolean {
+    override fun updateAvatar(username: String, base64: String): Boolean {
         return database.update(UserEntity) {
             set(UserEntity.image, base64)
             where { UserEntity.username eq username }
         } > 0
     }
 
-    fun updateName(username: String, name: String): Boolean {
+    override fun updateName(username: String, name: String): Boolean {
         return database.update(UserEntity) {
             set(UserEntity.name, name)
             where { UserEntity.username eq username }
         } > 0
     }
 
-    fun updateAddress(username: String, address: String): Boolean {
+    override fun updateAddress(username: String, address: String): Boolean {
         return database.update(UserEntity) {
             set(UserEntity.address, address)
             where { UserEntity.username eq username }
         } > 0
     }
 
-    fun updatePhone(username: String, phone: String): Boolean {
+    override fun updatePhone(username: String, phone: String): Boolean {
         return database.update(UserEntity) {
             set(UserEntity.phone, phone)
             where { UserEntity.username eq username }
         } > 0
     }
 
-    fun authAndUpdatePassword(authPassword: PasswordDTO): String {
+    override fun authAndUpdatePassword(authPassword: PasswordDTO): String {
         return when (authenticateUser(authPassword.username, authPassword.oldPassword)) {
             null -> Constants.AUTH_FAILED
             false -> Constants.INCORRECT_PASSWORD
@@ -64,7 +65,7 @@ class UserRepository(
         }
     }
 
-    fun authAndUpdateEmail(authEmail: EmailDTO): String {
+    override fun authAndUpdateEmail(authEmail: EmailDTO): String {
         return when (authenticateUser(authEmail.username, authEmail.password)) {
             null -> Constants.AUTH_FAILED
             false -> Constants.INCORRECT_PASSWORD

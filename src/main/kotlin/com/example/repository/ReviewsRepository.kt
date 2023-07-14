@@ -1,5 +1,6 @@
 package com.example.repository
 
+import com.example.contract.ReviewsContract
 import com.example.data.dto.ReviewsDTO
 import com.example.data.entity.ReviewsEntity
 import com.example.data.entity.UserEntity
@@ -10,9 +11,9 @@ import org.ktorm.dsl.*
 
 class ReviewsRepository(
     private val database: Database
-) {
+): ReviewsContract {
 
-    fun getReviewsByDrinksId (drinksId: Int): List<ReviewsModel> {
+    override fun getReviewsByDrinksId (drinksId: Int): List<ReviewsModel> {
         val result = database.from(ReviewsEntity)
             .innerJoin(UserEntity, on = ReviewsEntity.userId eq UserEntity.id)
             .select()
@@ -30,7 +31,7 @@ class ReviewsRepository(
         return result
     }
 
-    fun getReviews(id: Int): ReviewsModel? {
+    override fun getReviews(id: Int): ReviewsModel? {
         return database.from(ReviewsEntity)
             .select()
             .where(ReviewsEntity.id eq id)
@@ -38,7 +39,7 @@ class ReviewsRepository(
             .firstOrNull()
     }
 
-    fun createReviews(reviews : ReviewsDTO) {
+    override fun createReviews(reviews : ReviewsDTO) {
         database.insert(ReviewsEntity) {
             set(ReviewsEntity.drinksId, reviews.drinksId)
             set(ReviewsEntity.userId, reviews.userId)
@@ -47,7 +48,7 @@ class ReviewsRepository(
         }
     }
 
-    fun updateReviews(id: Int, reviews : ReviewsDTO): Boolean {
+    override fun updateReviews(id: Int, reviews : ReviewsDTO): Boolean {
         val updateRow = database.update(ReviewsEntity) {
             set(ReviewsEntity.rating, reviews.rating)
             set(ReviewsEntity.comment, reviews.comment)
@@ -56,7 +57,7 @@ class ReviewsRepository(
         return updateRow > 0
     }
 
-    fun deleteReviews(id: Int): Boolean {
+    override fun deleteReviews(id: Int): Boolean {
         val deleteRow = database.delete(ReviewsEntity) {
             it.id eq id
         }

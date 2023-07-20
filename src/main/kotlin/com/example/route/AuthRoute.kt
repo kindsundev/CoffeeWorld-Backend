@@ -6,6 +6,7 @@ import com.example.data.dto.RegisterDTO
 import com.example.response.ApiResponse
 import com.example.common.Constants
 import com.example.data.dto.AuthDTO
+import com.example.data.dto.UserDTO
 import com.example.util.TokenManagerUtil
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -56,7 +57,13 @@ fun Application.configureAuthRoutes(controller: AuthController, config: HoconApp
                     when (controller.loginUser(request)) {
                         true -> {
                             val token = TokenManagerUtil.getInstance(config).generateJWTToken(request.username)
-                            call.respond(HttpStatusCode.OK, ApiResponse.Success(token))
+                            val user = controller.getUser(request.username)
+                            if (user == null) {
+                                call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Get user failed"))
+                            } else {
+                                val data = UserDTO(token = token, user = user)
+                                call.respond(HttpStatusCode.OK, ApiResponse.Success(data))
+                            }
                         }
                         false -> {
                             call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Incorrect password"))

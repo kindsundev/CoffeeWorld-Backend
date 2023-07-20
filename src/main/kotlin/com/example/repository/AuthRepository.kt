@@ -5,6 +5,7 @@ import com.example.data.dto.RegisterDTO
 import com.example.common.Constants
 import com.example.contract.AuthContract
 import com.example.data.dto.AuthDTO
+import com.example.data.model.UserModel
 import io.ktor.server.config.*
 import org.mindrot.jbcrypt.BCrypt
 
@@ -46,4 +47,7 @@ class AuthRepository(
         }
         return Constants.INVALID_USER_DATA
     }
+
+    override fun getUser(username: String): UserModel? = loginRepo.getUser(username)
+
 }

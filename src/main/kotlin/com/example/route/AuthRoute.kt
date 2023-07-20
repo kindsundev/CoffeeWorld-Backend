@@ -81,7 +81,7 @@ fun Application.configureAuthRoutes(controller: AuthController, config: HoconApp
             }
 
             authenticate {
-                post("/forget-password") {
+                post("/forgot-password") {
                     val request = call.receive<AuthDTO>()
                     try {
                         when (controller.forgotPassword(request)) {

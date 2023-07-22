@@ -7,7 +7,7 @@ import com.example.data.model.UserModel
 
 interface AuthContract {
 
-    fun loginUser(user: LoginDTO): Boolean?
+    fun loginUser(user: LoginDTO): String?
 
     fun registerUser(user: RegisterDTO): String
 

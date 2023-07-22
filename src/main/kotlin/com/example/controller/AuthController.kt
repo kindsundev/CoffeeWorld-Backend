@@ -9,7 +9,7 @@ import com.example.data.model.UserModel
 class AuthController(
     private val auth: AuthContract
 ){
-    fun loginUser(user: LoginDTO): Boolean? = auth.loginUser(user)
+    fun loginUser(user: LoginDTO): String? = auth.loginUser(user)
 
     fun registerUser(user: RegisterDTO): String = auth.registerUser(user)
 

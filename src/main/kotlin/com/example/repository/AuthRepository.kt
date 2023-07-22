@@ -25,8 +25,20 @@ class AuthRepository(
         }
     }
 
-    override fun loginUser(user: LoginDTO): Boolean? {
-        return if (loginRepo.isInvalidCredentials(user)) null else loginRepo.authenticatePassword(user)
+    override fun loginUser(user: LoginDTO): String {
+        return if (loginRepo.isInvalidCredentials(user)) {
+            Constants.INVALID_USER_DATA
+        } else {
+            if (loginRepo.checkUserExist(user.username)) {
+                if (loginRepo.authenticatePassword(user)) {
+                    Constants.AUTH_PASSWORD_SUCCESS
+                } else {
+                    Constants.INCORRECT_PASSWORD
+                }
+            } else {
+                Constants.INVALID_USER_DATA
+            }
+        }
     }
 
     override fun forgotPassword(authInfo: AuthDTO): String {

@@ -30,6 +30,15 @@ class LoginRepository(
             .firstOrNull()
     }
 
+    fun checkUserExist(username: String): Boolean {
+        val result = database.from(UserEntity)
+            .select()
+            .where { UserEntity.username eq username }
+            .map { it[UserEntity.username] }
+            .firstOrNull()
+        return result != null
+    }
+
     fun getUser(username: String): UserModel? {
         return database.from(UserEntity)
             .select()

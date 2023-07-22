@@ -55,7 +55,13 @@ fun Application.configureAuthRoutes(controller: AuthController, config: HoconApp
                 val request = call.receive<LoginDTO>()
                 try {
                     when (controller.loginUser(request)) {
-                        true -> {
+                        Constants.INVALID_USER_DATA -> {
+                            call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Invalid user data"))
+                        }
+                        Constants.INCORRECT_PASSWORD -> {
+                            call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Incorrect password"))
+                        }
+                        else -> {
                             val token = TokenManagerUtil.getInstance(config).generateJWTToken(request.username)
                             val user = controller.getUser(request.username)
                             if (user == null) {
@@ -64,12 +70,6 @@ fun Application.configureAuthRoutes(controller: AuthController, config: HoconApp
                                 val data = UserDTO(token = token, user = user)
                                 call.respond(HttpStatusCode.OK, ApiResponse.Success(data))
                             }
-                        }
-                        false -> {
-                            call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Incorrect password"))
-                        }
-                        else -> {
-                            call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Invalid user data"))
                         }
                     }
                 } catch (e: Exception) {

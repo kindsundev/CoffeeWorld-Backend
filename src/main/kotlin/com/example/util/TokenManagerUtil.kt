@@ -4,14 +4,15 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.server.config.*
-import java.time.Instant
-import java.util.Date
+import java.util.*
 
 class TokenManagerUtil private constructor(config: HoconApplicationConfig) {
     private val audience = config.property("ktor.jwt.audience").getString()
     private val issuer = config.property("ktor.jwt.issuer").getString()
     private val secret = config.property("ktor.jwt.secret").getString()
-    private val expirationTime = Date.from(Instant.now().plusSeconds(7 * 24 * 60 * 60))
+    private val expirationTime : Date = Calendar.getInstance().apply {
+        add(Calendar.YEAR, 1)
+    }.time
 
     companion object {
         private var instance: TokenManagerUtil? = null

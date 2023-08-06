@@ -23,9 +23,9 @@ class UserRepository(
             .firstOrNull()
     }
 
-    override fun updateAvatar(username: String, base64: String): Boolean {
+    override fun updateAvatar(username: String, image: ByteArray?): Boolean {
         return database.update(UserEntity) {
-            set(UserEntity.image, base64)
+            set(UserEntity.image, image)
             where { UserEntity.username eq username }
         } > 0
     }

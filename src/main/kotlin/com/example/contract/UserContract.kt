@@ -18,6 +18,6 @@ interface UserContract {
 
     fun authAndUpdateEmail(authEmail: EmailDTO): String
 
-    fun updateAvatar(username: String, base64: String): Boolean
+    fun updateAvatar(username: String, image: ByteArray?): Boolean
 
 }

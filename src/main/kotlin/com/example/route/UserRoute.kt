@@ -6,6 +6,7 @@ import com.example.data.dto.EmailDTO
 import com.example.data.dto.PasswordDTO
 import com.example.response.ApiResponse
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.request.*
@@ -40,6 +41,7 @@ fun Application.configureUserRoutes(controller: UserController) {
                     }
                 }
 
+
                 put("/name/{username}") {
                     val username = call.parameters["username"].toString()
                     val name = call.receiveText()
@@ -63,6 +65,7 @@ fun Application.configureUserRoutes(controller: UserController) {
                         )
                     }
                 }
+
 
                 put("/phone/{username}") {
                     val username = call.parameters["username"].toString()
@@ -88,6 +91,7 @@ fun Application.configureUserRoutes(controller: UserController) {
                     }
                 }
 
+
                 put("/address/{username}") {
                     val username = call.parameters["username"].toString()
                     val address = call.receiveText()
@@ -112,29 +116,44 @@ fun Application.configureUserRoutes(controller: UserController) {
                     }
                 }
 
-                put("/avatar/{username}") {
-                    val username = call.parameters["username"].toString()
-                    val base64 = call.receiveText()
-                    if (username.isEmpty() || base64.isEmpty()) {
-                        val message = if (username.isEmpty()) "Username cannot be null" else "Base64 cannot be null or empty"
-                        call.respond(HttpStatusCode.BadRequest, ApiResponse.Error(message))
-                        return@put
-                    }
 
+                put("/avatar") {
                     try {
-                        val result = controller.updateAvatar(username, base64)
-                        if (result) {
-                            call.respond(HttpStatusCode.OK, ApiResponse.Success("Update avatar success"))
-                        } else {
-                            call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Update avatar failed"))
+                        call.receiveMultipart().let { multipart ->
+                            var image: ByteArray? = null
+                            var username: String? = null
+                            multipart.forEachPart { part ->
+                                if (part is PartData.FormItem) {
+                                    if (part.name == "username") {
+                                        username = part.value
+                                    }
+                                } else if (part is PartData.FileItem) {
+                                    image =part.streamProvider().readBytes()
+                                }
+                                part.dispose
+                            }
+                            if (username.isNullOrEmpty()) {
+                                call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Username cannot be null or empty"))
+                                return@put
+                            }
+
+                            val result = controller.updateAvatar(username!!, image)
+                            if (result) {
+                                call.respond(HttpStatusCode.OK, ApiResponse.Success("Update avatar success"))
+                            } else {
+                                call.respond(HttpStatusCode.OK, ApiResponse.Error("Update avatar failed"))
+                            }
                         }
-                    } catch (e: Exception) {
+                    } catch (e: ContentTransformationException) {
                         logger.error("Error at update avatar", e)
-                        call.respond(
-                            HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
-                        )
+                        call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("Invalid request data"))
+                    }
+                    catch (e: Exception) {
+                        logger.error("Error at update avatar", e)
+                        call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later"))
                     }
                 }
+
 
                 put("/email") {
                     val request = call.receive<EmailDTO>()

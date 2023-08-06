@@ -31,8 +31,8 @@ class UserController(
         return user.authAndUpdateEmail(authEmail)
     }
 
-    fun updateAvatar(username: String, base64: String): Boolean {
-        return user.updateAvatar(username, base64)
+    fun updateAvatar(username: String, image: ByteArray?): Boolean {
+        return user.updateAvatar(username, image)
     }
 
 }

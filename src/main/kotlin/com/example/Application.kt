@@ -5,8 +5,6 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import com.example.plugins.*
 import com.example.util.*
-import com.example.util.initializedCategoryRouting
-import com.example.util.initializedDrinksRouting
 import com.typesafe.config.ConfigFactory
 import io.ktor.server.config.*
 
@@ -25,9 +23,7 @@ fun Application.module() {
     initializedCafeRouting()
     initializedCartRouting()
     initializedBillRouting()
-    initializedDrinksRouting()
     initializedReviewsRouting()
     initializedFavoriteRouting()
-    initializedCategoryRouting()
     initializedPaymentMethodRouting()
 }

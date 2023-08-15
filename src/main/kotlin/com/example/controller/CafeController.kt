@@ -2,12 +2,24 @@ package com.example.controller
 
 import com.example.contract.CafeContract
 import com.example.data.model.CafeModel
+import com.example.data.model.CategoryModel
+import com.example.data.model.DrinksModel
 
 class CafeController(
     private val cafe: CafeContract
 ) {
-     fun getListCafes(): List<CafeModel> = cafe.getListCafes()
+     fun getCafeList(): List<CafeModel> = cafe.getCafeList()
 
-    fun getCafe(id: Int): CafeModel? = cafe.getCafe(id)
+    fun getCategoryList(cafeId: Int): List<CategoryModel> {
+        return cafe.getCategoryList(cafeId)
+    }
+
+    fun getDrinksListInCategory(cafeId: Int, categoryId: Int): List<DrinksModel>  {
+        return cafe.getDrinksListInCategory(cafeId, categoryId)
+    }
+
+    fun updateQuantityDrinks(id: Int, quantity: Int): Boolean {
+        return cafe.updateQuantityDrinks(id, quantity)
+    }
 
 }

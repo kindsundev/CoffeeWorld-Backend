@@ -19,14 +19,6 @@ fun Application.configureCafeRouting(controller: CafeController) {
     configureCafeRoutes(controller)
 }
 
-fun Application.configureDrinksRouting(controller: DrinksController) {
-    configureDrinksRoute(controller)
-}
-
-fun Application.configureCategoryRouting(controller: CategoryController) {
-    configureCategoryRoutes(controller)
-}
-
 fun Application.configureReviewsRouting(controller: ReviewsController) {
     configureReviewsRoutes(controller)
 }

@@ -5,6 +5,7 @@ import com.example.response.ApiResponse
 import io.ktor.http.*
 import org.slf4j.LoggerFactory
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
@@ -16,35 +17,91 @@ fun Application.configureCafeRoutes(controller: CafeController) {
 
             get {
                 try {
-                    val list = controller.getListCafes()
+                    val list = controller.getCafeList()
                     if (list.isNotEmpty()) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
                     } else {
                         call.respond(HttpStatusCode.NotFound, ApiResponse.Error("The list of cafes could not be found"))
                     }
                 } catch (e: Exception) {
-                    logger.error("Error at get list cafes", e)
+                    logger.error("Error at get cafe list", e)
                     call.respond(
                         HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
                 }
             }
 
-            get("/{id}") {
-                val id = call.parameters["id"]?.toIntOrNull()
-                if (id == null) {
+            get("/{cafe_id}/categories") {
+                val cafeId = call.parameters["cafe_id"]?.toIntOrNull()
+                if (cafeId == null) {
                     call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Id cannot be null"))
                     return@get
                 }
                 try {
-                    val cafe = controller.getCafe(id)
-                    if (cafe != null) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success(cafe))
+                    val list = controller.getCategoryList(cafeId)
+                    if (list.isNotEmpty()) {
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
                     } else {
-                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found cafe"))
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("The list of categories could not be found"))
                     }
                 } catch (e: Exception) {
-                    logger.error("Error at get cafe by id", e)
+                    logger.error("Error at get category list", e)
+                    call.respond(
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
+                    )
+                }
+            }
+
+            get("/{cafe_id}/category/{category_id}/drinks") {
+                val cafeId = call.parameters["cafe_id"]?.toIntOrNull()
+                val categoryId = call.parameters["category_id"]?.toIntOrNull()
+                if (cafeId == null || categoryId == null) {
+                    call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Id cannot be null"))
+                    return@get
+                }
+                try {
+                    val list = controller.getDrinksListInCategory(cafeId, categoryId)
+                    if (list.isNotEmpty()) {
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("The list of categories could not be found"))
+                    }
+                } catch (e: Exception) {
+                    logger.error("Error at get drinks list", e)
+                    call.respond(
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
+                    )
+                }
+            }
+        }
+
+        route("/drinks/") {
+
+            put("/{id}/quantity") {
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Id cannot be null"))
+                    return@put
+                }
+
+                try {
+                    val quantity = call.receiveText().toIntOrNull()
+                    if (quantity == null) {
+                        call.respond(
+                            HttpStatusCode.BadRequest, ApiResponse.Error("Quantity is numeric or not null")
+                        )
+                    } else {
+                        val updated = controller.updateQuantityDrinks(id, quantity)
+                        if (updated) {
+                            call.respond(HttpStatusCode.OK, ApiResponse.Success("Updated to quantity"))
+                        } else {
+                            call.respond(
+                                HttpStatusCode.NotFound, ApiResponse.Error("Not found drinks")
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    logger.error("Error at update quantity", e)
                     call.respond(
                         HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )

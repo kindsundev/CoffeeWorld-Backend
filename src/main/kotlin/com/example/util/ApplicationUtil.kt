@@ -14,18 +14,6 @@ fun Application.initializedCafeRouting() {
     configureCafeRouting(controller)
 }
 
-fun Application.initializedDrinksRouting() {
-    val repository = DrinksRepository(database)
-    val controller = DrinksController(repository)
-    configureDrinksRouting(controller)
-}
-
-fun Application.initializedCategoryRouting() {
-    val repository = CategoryRepository(database)
-    val controller = CategoryController(repository)
-    configureCategoryRouting(controller)
-}
-
 fun Application.initializedReviewsRouting() {
     val repository = ReviewsRepository(database)
     val controller = ReviewsController(repository)

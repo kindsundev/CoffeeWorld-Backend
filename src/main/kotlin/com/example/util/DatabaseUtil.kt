@@ -32,7 +32,8 @@ fun QueryRowSet.toCategoryModel(): CategoryModel {
     return CategoryModel(
         id = this[CategoryEntity.id]!!,
         cafeId = this[CategoryEntity.cafeId]!!,
-        name = this[CategoryEntity.name]!!
+        name = this[CategoryEntity.name]!!,
+        image = this[CategoryEntity.image]
     )
 }
 

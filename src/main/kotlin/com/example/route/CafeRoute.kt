@@ -42,7 +42,9 @@ fun Application.configureCafeRoutes(controller: CafeController) {
                     if (list.isNotEmpty()) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
                     } else {
-                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("The list of categories could not be found"))
+                        call.respond(
+                            HttpStatusCode.NotFound, ApiResponse.Error("The list of categories could not be found")
+                        )
                     }
                 } catch (e: Exception) {
                     logger.error("Error at get category list", e)
@@ -60,11 +62,13 @@ fun Application.configureCafeRoutes(controller: CafeController) {
                     return@get
                 }
                 try {
-                    val list = controller.getDrinksListInCategory(cafeId, categoryId)
-                    if (list.isNotEmpty()) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
+                    val beverageCategory = controller.getDrinksListInCategory(cafeId, categoryId)
+                    if (beverageCategory != null) {
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(beverageCategory))
                     } else {
-                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("The list of categories could not be found"))
+                        call.respond(
+                            HttpStatusCode.NotFound, ApiResponse.Error("No data found")
+                        )
                     }
                 } catch (e: Exception) {
                     logger.error("Error at get drinks list", e)

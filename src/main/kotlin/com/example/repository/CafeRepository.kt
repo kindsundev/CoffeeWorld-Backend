@@ -4,6 +4,7 @@ import com.example.contract.CafeContract
 import com.example.data.entity.CafeEntity
 import com.example.data.entity.CategoryEntity
 import com.example.data.entity.DrinksEntity
+import com.example.data.model.BeverageCategoryModel
 import com.example.data.model.CafeModel
 import com.example.data.model.CategoryModel
 import com.example.data.model.DrinksModel
@@ -33,15 +34,23 @@ class CafeRepository(
             .map { it.toCategoryModel() }
     }
 
-    override fun getDrinksListInCategory(cafeId: Int, categoryId: Int): List<DrinksModel> {
-        return database.from(DrinksEntity)
+    override fun getDrinksListInCategory(cafeId: Int, categoryId: Int): BeverageCategoryModel? {
+        var categoryName: String? = null
+        val drinksList = mutableListOf<DrinksModel>()
+        database.from(DrinksEntity)
+            .innerJoin(CategoryEntity, DrinksEntity.categoryId eq CategoryEntity.id)
             .select()
             .where {
                 (DrinksEntity.cafeId eq cafeId) and (DrinksEntity.categoryId eq categoryId)
-            }.map {
-                it.toDrinksModel()
             }
+            .map {
+                categoryName= it[CategoryEntity.name]
+                val drinksModel = it.toDrinksModel()
+                drinksList.add(drinksModel)
+            }
+        return categoryName?.let { BeverageCategoryModel(it, drinksList) }
     }
+
 
     override fun updateQuantityDrinks(id: Int, quantity: Int): Boolean {
         val currentQuantity = getCurrentQuantity(id)

@@ -1,9 +1,9 @@
 package com.example.controller
 
 import com.example.contract.CafeContract
+import com.example.data.model.BeverageCategoryModel
 import com.example.data.model.CafeModel
 import com.example.data.model.CategoryModel
-import com.example.data.model.DrinksModel
 
 class CafeController(
     private val cafe: CafeContract
@@ -14,7 +14,7 @@ class CafeController(
         return cafe.getCategoryList(cafeId)
     }
 
-    fun getDrinksListInCategory(cafeId: Int, categoryId: Int): List<DrinksModel>  {
+    fun getDrinksListInCategory(cafeId: Int, categoryId: Int): BeverageCategoryModel?  {
         return cafe.getDrinksListInCategory(cafeId, categoryId)
     }
 

@@ -4,10 +4,7 @@ import com.example.contract.CafeContract
 import com.example.data.entity.CafeEntity
 import com.example.data.entity.CategoryEntity
 import com.example.data.entity.DrinksEntity
-import com.example.data.model.BeverageCategoryModel
-import com.example.data.model.CafeModel
-import com.example.data.model.CategoryModel
-import com.example.data.model.DrinksModel
+import com.example.data.model.*
 import com.example.util.toCafeModel
 import com.example.util.toCategoryModel
 import com.example.util.toDrinksModel
@@ -49,6 +46,26 @@ class CafeRepository(
                 drinksList.add(drinksModel)
             }
         return categoryName?.let { BeverageCategoryModel(it, drinksList) }
+    }
+
+    override fun getMenuList(cafeId: Int): List<MenuModel>? {
+        val result = mutableListOf<MenuModel>()
+
+        database.from(CategoryEntity).select()
+            .where(CategoryEntity.cafeId eq cafeId)
+            .map { it.toCategoryModel() }
+            .onEach { category ->
+                database.from(DrinksEntity).select()
+                    .where { (DrinksEntity.cafeId eq cafeId) and (DrinksEntity.categoryId eq category.id) }
+                    .map { it.toDrinksModel() }
+                    .also { drinkList ->
+                        if (drinkList.isNotEmpty()) {
+                            result.add(MenuModel(category, drinkList))
+                        }
+                    }
+            }
+
+        return result.ifEmpty { null }
     }
 
 

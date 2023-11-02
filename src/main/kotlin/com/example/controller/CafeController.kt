@@ -4,6 +4,7 @@ import com.example.contract.CafeContract
 import com.example.data.model.BeverageCategoryModel
 import com.example.data.model.CafeModel
 import com.example.data.model.CategoryModel
+import com.example.data.model.MenuModel
 
 class CafeController(
     private val cafe: CafeContract
@@ -16,6 +17,10 @@ class CafeController(
 
     fun getDrinksListInCategory(cafeId: Int, categoryId: Int): BeverageCategoryModel?  {
         return cafe.getDrinksListInCategory(cafeId, categoryId)
+    }
+
+    fun getMenuList(cafeId: Int): List<MenuModel>? {
+        return cafe.getMenuList(cafeId)
     }
 
     fun updateQuantityDrinks(id: Int, quantity: Int): Boolean {

@@ -77,6 +77,27 @@ fun Application.configureCafeRoutes(controller: CafeController) {
                     )
                 }
             }
+
+            get("/{cafe_id}/menu") {
+                val cafeId = call.parameters["cafe_id"]?.toIntOrNull()
+                if (cafeId == null) {
+                    call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Id cannot be null"))
+                    return@get
+                }
+                try {
+                    val menuList = controller.getMenuList(cafeId)
+                    if (menuList?.isNotEmpty() == true) {
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(menuList))
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("No data found"))
+                    }
+                } catch (e: Exception) {
+                    logger.error("Error at get menu list", e)
+                    call.respond(
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
+                    )
+                }
+            }
         }
 
         route("/drinks/") {

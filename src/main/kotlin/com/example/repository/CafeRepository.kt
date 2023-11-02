@@ -10,6 +10,7 @@ import com.example.util.toCategoryModel
 import com.example.util.toDrinksModel
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
+import org.ktorm.schema.ColumnDeclaring
 
 class CafeRepository(
     private val database: Database
@@ -31,21 +32,24 @@ class CafeRepository(
             .map { it.toCategoryModel() }
     }
 
-    override fun getDrinksListInCategory(cafeId: Int, categoryId: Int): BeverageCategoryModel? {
-        var categoryName: String? = null
-        val drinksList = mutableListOf<DrinksModel>()
-        database.from(DrinksEntity)
-            .innerJoin(CategoryEntity, DrinksEntity.categoryId eq CategoryEntity.id)
-            .select()
-            .where {
-                (DrinksEntity.cafeId eq cafeId) and (DrinksEntity.categoryId eq categoryId)
-            }
-            .map {
-                categoryName= it[CategoryEntity.name]
-                val drinksModel = it.toDrinksModel()
-                drinksList.add(drinksModel)
-            }
-        return categoryName?.let { BeverageCategoryModel(it, drinksList) }
+    override fun getDrinkList(cafeId: Int): List<DrinksModel> {
+        return handleGetDrinkList(DrinksEntity.cafeId eq cafeId)
+    }
+
+    override fun getDrinkListByCategory(cafeId: Int, categoryId: Int): List<DrinksModel> {
+        return handleGetDrinkList(
+            (DrinksEntity.cafeId eq cafeId) and (DrinksEntity.categoryId eq categoryId)
+        )
+    }
+
+    private fun handleGetDrinkList(condition: ColumnDeclaring<Boolean>): List<DrinksModel> {
+        return mutableListOf<DrinksModel>().apply {
+            database.from(DrinksEntity).select()
+                .where (condition)
+                .map {
+                    add(it.toDrinksModel())
+                }
+        }
     }
 
     override fun getMenuList(cafeId: Int): List<MenuModel>? {

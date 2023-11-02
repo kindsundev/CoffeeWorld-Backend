@@ -54,6 +54,27 @@ fun Application.configureCafeRoutes(controller: CafeController) {
                 }
             }
 
+            get("/{cafe_id}/drinks") {
+                val cafeId = call.parameters["cafe_id"]?.toIntOrNull()
+                if (cafeId == null) {
+                    call.respond(HttpStatusCode.BadRequest, ApiResponse.Error("Id cannot be null"))
+                    return@get
+                }
+                try {
+                    val list = controller.getDrinkList(cafeId)
+                    if (list.isNotEmpty()) {
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("No data found"))
+                    }
+                } catch (e: Exception) {
+                    logger.error("Error at get category list", e)
+                    call.respond(
+                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
+                    )
+                }
+            }
+
             get("/{cafe_id}/category/{category_id}/drinks") {
                 val cafeId = call.parameters["cafe_id"]?.toIntOrNull()
                 val categoryId = call.parameters["category_id"]?.toIntOrNull()
@@ -62,19 +83,15 @@ fun Application.configureCafeRoutes(controller: CafeController) {
                     return@get
                 }
                 try {
-                    val beverageCategory = controller.getDrinksListInCategory(cafeId, categoryId)
-                    if (beverageCategory != null) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success(beverageCategory))
+                    val drinkList = controller.getDrinkListByCategory(cafeId, categoryId)
+                    if (drinkList.isNotEmpty()) {
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(drinkList))
                     } else {
-                        call.respond(
-                            HttpStatusCode.NotFound, ApiResponse.Error("No data found")
-                        )
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("No data found"))
                     }
                 } catch (e: Exception) {
                     logger.error("Error at get drinks list", e)
-                    call.respond(
-                        HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
-                    )
+                    call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later"))
                 }
             }
 

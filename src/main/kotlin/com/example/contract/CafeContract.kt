@@ -1,9 +1,6 @@
 package com.example.contract
 
-import com.example.data.model.BeverageCategoryModel
-import com.example.data.model.CafeModel
-import com.example.data.model.CategoryModel
-import com.example.data.model.MenuModel
+import com.example.data.model.*
 
 interface CafeContract {
 
@@ -11,11 +8,12 @@ interface CafeContract {
 
     fun getCategoryList(cafeId: Int): List<CategoryModel>
 
-    fun getDrinksListInCategory(cafeId: Int, categoryId: Int): BeverageCategoryModel?
+    fun getDrinkList(cafeId: Int): List<DrinksModel>
+
+    fun getDrinkListByCategory(cafeId: Int, categoryId: Int): List<DrinksModel>
 
     fun getMenuList(cafeId: Int): List<MenuModel>?
 
     fun updateQuantityDrinks(id: Int, quantity: Int): Boolean
-
 
 }

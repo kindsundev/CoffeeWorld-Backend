@@ -102,14 +102,14 @@ fun Application.configureCafeRoutes(controller: CafeController) {
                     return@get
                 }
                 try {
-                    val menuList = controller.getMenuList(cafeId)
-                    if (menuList?.isNotEmpty() == true) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success(menuList))
+                    val menu = controller.getMenu(cafeId)
+                    if (menu.beverageCategory.isNotEmpty()) {
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(menu))
                     } else {
                         call.respond(HttpStatusCode.NotFound, ApiResponse.Error("No data found"))
                     }
                 } catch (e: Exception) {
-                    logger.error("Error at get menu list", e)
+                    logger.error("Error at get menu", e)
                     call.respond(
                         HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )

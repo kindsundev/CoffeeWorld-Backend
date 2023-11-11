@@ -52,8 +52,8 @@ class CafeRepository(
         }
     }
 
-    override fun getMenuList(cafeId: Int): List<MenuModel>? {
-        val result = mutableListOf<MenuModel>()
+    override fun getMenu(cafeId: Int): MenuModel {
+        val items = mutableListOf<BeverageCategory>()
 
         database.from(CategoryEntity).select()
             .where(CategoryEntity.cafeId eq cafeId)
@@ -64,12 +64,12 @@ class CafeRepository(
                     .map { it.toDrinksModel() }
                     .also { drinkList ->
                         if (drinkList.isNotEmpty()) {
-                            result.add(MenuModel(category, drinkList))
+                            items.add(BeverageCategory(cafeId, category, drinkList))
                         }
                     }
             }
 
-        return result.ifEmpty { null }
+        return MenuModel(cafeId, items)
     }
 
 

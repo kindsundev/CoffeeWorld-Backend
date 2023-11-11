@@ -12,7 +12,7 @@ interface CafeContract {
 
     fun getDrinkListByCategory(cafeId: Int, categoryId: Int): List<DrinksModel>
 
-    fun getMenuList(cafeId: Int): List<MenuModel>?
+    fun getMenu(cafeId: Int): MenuModel
 
     fun updateQuantityDrinks(id: Int, quantity: Int): Boolean
 

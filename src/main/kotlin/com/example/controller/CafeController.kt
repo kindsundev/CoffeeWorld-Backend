@@ -18,8 +18,8 @@ class CafeController(
         return cafe.getDrinkListByCategory(cafeId, categoryId)
     }
 
-    fun getMenuList(cafeId: Int): List<MenuModel>? {
-        return cafe.getMenuList(cafeId)
+    fun getMenu(cafeId: Int): MenuModel {
+        return cafe.getMenu(cafeId)
     }
 
     fun updateQuantityDrinks(id: Int, quantity: Int): Boolean {

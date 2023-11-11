@@ -19,8 +19,8 @@ fun Application.configureCafeRouting(controller: CafeController) {
     configureCafeRoutes(controller)
 }
 
-fun Application.configureReviewsRouting(controller: ReviewsController) {
-    configureReviewsRoutes(controller)
+fun Application.configureReviewRouting(controller: ReviewController) {
+    configureReviewRoutes(controller)
 }
 
 fun Application.configureFavoriteRouting(controller: FavoriteController) {

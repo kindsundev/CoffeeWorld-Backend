@@ -5,11 +5,11 @@ import com.example.data.dto.BillDTO
 import com.example.data.model.BillModel
 
 class BillController(
-    private val bill : BillContract
+    private val service : BillContract
 ) {
 
-    fun getBillByUserId(userId: Int): List<BillModel> = bill.getBillByUserId(userId)
+    fun getBillByUserId(userId: Int): List<BillModel> = service.getBillByUserId(userId)
 
-    fun createBill(bill: BillDTO): BillModel? = this.bill.createBill(bill)
+    fun createBill(bill: BillDTO): BillModel? = this.service.createBill(bill)
 
 }

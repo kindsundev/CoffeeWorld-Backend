@@ -3,11 +3,11 @@ package com.example.repository
 import com.example.contract.CafeContract
 import com.example.data.entity.CafeEntity
 import com.example.data.entity.CategoryEntity
-import com.example.data.entity.DrinksEntity
+import com.example.data.entity.DrinkEntity
 import com.example.data.model.*
 import com.example.util.toCafeModel
 import com.example.util.toCategoryModel
-import com.example.util.toDrinksModel
+import com.example.util.toDrinkModel
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import org.ktorm.schema.ColumnDeclaring
@@ -32,22 +32,22 @@ class CafeRepository(
             .map { it.toCategoryModel() }
     }
 
-    override fun getDrinkList(cafeId: Int): List<DrinksModel> {
-        return handleGetDrinkList(DrinksEntity.cafeId eq cafeId)
+    override fun getDrinkList(cafeId: Int): List<DrinkModel> {
+        return handleGetDrinkList(DrinkEntity.cafeId eq cafeId)
     }
 
-    override fun getDrinkListByCategory(cafeId: Int, categoryId: Int): List<DrinksModel> {
+    override fun getDrinkListByCategory(cafeId: Int, categoryId: Int): List<DrinkModel> {
         return handleGetDrinkList(
-            (DrinksEntity.cafeId eq cafeId) and (DrinksEntity.categoryId eq categoryId)
+            (DrinkEntity.cafeId eq cafeId) and (DrinkEntity.categoryId eq categoryId)
         )
     }
 
-    private fun handleGetDrinkList(condition: ColumnDeclaring<Boolean>): List<DrinksModel> {
-        return mutableListOf<DrinksModel>().apply {
-            database.from(DrinksEntity).select()
+    private fun handleGetDrinkList(condition: ColumnDeclaring<Boolean>): List<DrinkModel> {
+        return mutableListOf<DrinkModel>().apply {
+            database.from(DrinkEntity).select()
                 .where (condition)
                 .map {
-                    add(it.toDrinksModel())
+                    add(it.toDrinkModel())
                 }
         }
     }
@@ -59,9 +59,9 @@ class CafeRepository(
             .where(CategoryEntity.cafeId eq cafeId)
             .map { it.toCategoryModel() }
             .onEach { category ->
-                database.from(DrinksEntity).select()
-                    .where { (DrinksEntity.cafeId eq cafeId) and (DrinksEntity.categoryId eq category.id) }
-                    .map { it.toDrinksModel() }
+                database.from(DrinkEntity).select()
+                    .where { (DrinkEntity.cafeId eq cafeId) and (DrinkEntity.categoryId eq category.id) }
+                    .map { it.toDrinkModel() }
                     .also { drinkList ->
                         if (drinkList.isNotEmpty()) {
                             items.add(BeverageCategory(cafeId, category, drinkList))
@@ -73,14 +73,14 @@ class CafeRepository(
     }
 
 
-    override fun updateQuantityDrinks(id: Int, quantity: Int): Boolean {
+    override fun updateQuantityDrink(id: Int, quantity: Int): Boolean {
         val currentQuantity = getCurrentQuantity(id)
         var updateRow = 0
 
         currentQuantity?.let {
             val updateQuantity = it - quantity
-            updateRow = database.update(DrinksEntity) {
-                set(DrinksEntity.quantity, updateQuantity)
+            updateRow = database.update(DrinkEntity) {
+                set(DrinkEntity.quantity, updateQuantity)
                 where { it.id eq id }
             }
         }
@@ -88,10 +88,10 @@ class CafeRepository(
     }
 
     private fun getCurrentQuantity(id: Int): Int? {
-        return database.from(DrinksEntity)
-            .select(DrinksEntity.quantity)
-            .where { DrinksEntity.id eq id }
-            .map { it[DrinksEntity.quantity] }
+        return database.from(DrinkEntity)
+            .select(DrinkEntity.quantity)
+            .where { DrinkEntity.id eq id }
+            .map { it[DrinkEntity.quantity] }
             .singleOrNull()
     }
 

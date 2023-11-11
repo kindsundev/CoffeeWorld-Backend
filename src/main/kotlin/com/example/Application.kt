@@ -23,7 +23,7 @@ fun Application.module() {
     initializedCafeRouting()
     initializedCartRouting()
     initializedBillRouting()
-    initializedReviewsRouting()
+    initializedReviewRouting()
     initializedFavoriteRouting()
     initializedPaymentMethodRouting()
 }

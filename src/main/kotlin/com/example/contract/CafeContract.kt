@@ -8,12 +8,12 @@ interface CafeContract {
 
     fun getCategoryList(cafeId: Int): List<CategoryModel>
 
-    fun getDrinkList(cafeId: Int): List<DrinksModel>
+    fun getDrinkList(cafeId: Int): List<DrinkModel>
 
-    fun getDrinkListByCategory(cafeId: Int, categoryId: Int): List<DrinksModel>
+    fun getDrinkListByCategory(cafeId: Int, categoryId: Int): List<DrinkModel>
 
     fun getMenu(cafeId: Int): MenuModel
 
-    fun updateQuantityDrinks(id: Int, quantity: Int): Boolean
+    fun updateQuantityDrink(id: Int, quantity: Int): Boolean
 
 }

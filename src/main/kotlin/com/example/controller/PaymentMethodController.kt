@@ -4,9 +4,9 @@ import com.example.contract.PaymentMethodContract
 import com.example.data.model.PaymentMethodModel
 
 class PaymentMethodController(
-    private val paymentMethod: PaymentMethodContract
+    private val service: PaymentMethodContract
 ) {
 
-    fun getListPaymentMethods(): List<PaymentMethodModel> = paymentMethod.getListPaymentMethods()
+    fun getListPaymentMethods(): List<PaymentMethodModel> = service.getListPaymentMethods()
 
 }

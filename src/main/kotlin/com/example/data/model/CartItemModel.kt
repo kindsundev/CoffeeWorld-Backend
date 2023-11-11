@@ -8,7 +8,7 @@ data class CartItemModel(
     val id: Int,
     @SerialName("cart_id")
     val cartId: Int,
-    @SerialName("drinks_id")
-    val drinksId: Int,
+    @SerialName("drink_id")
+    val drinkId: Int,
     val quantity: Int
 )

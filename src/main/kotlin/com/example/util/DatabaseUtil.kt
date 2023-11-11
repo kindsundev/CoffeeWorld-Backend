@@ -37,17 +37,17 @@ fun QueryRowSet.toCategoryModel(): CategoryModel {
     )
 }
 
-fun QueryRowSet.toDrinksModel(): DrinksModel {
-    return DrinksModel(
-        id = this[DrinksEntity.id]!!,
-        cafeId = this[DrinksEntity.cafeId]!!,
-        name = this[DrinksEntity.name]!!,
-        quantity = this[DrinksEntity.quantity]!!,
-        price = this[DrinksEntity.price]!!,
-        description = this[DrinksEntity.description]!!,
-        image = this[DrinksEntity.image],
-        categoryId = this[DrinksEntity.categoryId]!!,
-        rating = this[DrinksEntity.rating]
+fun QueryRowSet.toDrinkModel(): DrinkModel {
+    return DrinkModel(
+        id = this[DrinkEntity.id]!!,
+        cafeId = this[DrinkEntity.cafeId]!!,
+        name = this[DrinkEntity.name]!!,
+        quantity = this[DrinkEntity.quantity]!!,
+        price = this[DrinkEntity.price]!!,
+        description = this[DrinkEntity.description]!!,
+        image = this[DrinkEntity.image],
+        categoryId = this[DrinkEntity.categoryId]!!,
+        rating = this[DrinkEntity.rating]
     )
 }
 
@@ -58,13 +58,13 @@ fun QueryRowSet.toPaymentMethodModel(): PaymentMethodModel {
     )
 }
 
-fun QueryRowSet.toReviewsModel(): ReviewsModel {
-    return ReviewsModel(
-        id = this[ReviewsEntity.id]!!,
-        drinksId = this[ReviewsEntity.drinksId]!!,
-        userId = this[ReviewsEntity.userId]!!,
-        rating = this[ReviewsEntity.rating]!!,
-        comment = this[ReviewsEntity.comment]
+fun QueryRowSet.toReviewModel(): ReviewModel {
+    return ReviewModel(
+        id = this[ReviewEntity.id]!!,
+        drinkId = this[ReviewEntity.drinkId]!!,
+        userId = this[ReviewEntity.userId]!!,
+        rating = this[ReviewEntity.rating]!!,
+        comment = this[ReviewEntity.comment]
     )
 }
 

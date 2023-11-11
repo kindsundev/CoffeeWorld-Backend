@@ -6,33 +6,33 @@ import com.example.data.dto.PasswordDTO
 import com.example.data.model.UserModel
 
 class UserController(
-    private val user: UserContract
+    private val service: UserContract
 ) {
 
-    fun getUser(username: String): UserModel? = user.getUser(username)
+    fun getUser(username: String): UserModel? = service.getUser(username)
 
     fun updateName(username: String, name: String): Boolean {
-        return user.updateName(username, name)
+        return service.updateName(username, name)
     }
 
     fun updateAddress(username: String, address: String): Boolean {
-        return user.updateAddress(username, address)
+        return service.updateAddress(username, address)
     }
 
     fun updatePhone(username: String, phone: String): Boolean {
-        return user.updatePhone(username, phone)
+        return service.updatePhone(username, phone)
     }
 
     fun updatePassword(authPassword: PasswordDTO): String {
-        return user.authAndUpdatePassword(authPassword)
+        return service.authAndUpdatePassword(authPassword)
     }
 
     fun updateEmail(authEmail: EmailDTO): String {
-        return user.authAndUpdateEmail(authEmail)
+        return service.authAndUpdateEmail(authEmail)
     }
 
     fun updateAvatar(username: String, image: ByteArray?): Boolean {
-        return user.updateAvatar(username, image)
+        return service.updateAvatar(username, image)
     }
 
 }

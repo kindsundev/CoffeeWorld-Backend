@@ -90,7 +90,7 @@ fun Application.configureCafeRoutes(controller: CafeController) {
                         call.respond(HttpStatusCode.NotFound, ApiResponse.Error("No data found"))
                     }
                 } catch (e: Exception) {
-                    logger.error("Error at get drinks list", e)
+                    logger.error("Error at get drinks", e)
                     call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later"))
                 }
             }
@@ -117,7 +117,7 @@ fun Application.configureCafeRoutes(controller: CafeController) {
             }
         }
 
-        route("/drinks/") {
+        route("/drink/") {
 
             put("/{id}/quantity") {
                 val id = call.parameters["id"]?.toIntOrNull()
@@ -133,12 +133,12 @@ fun Application.configureCafeRoutes(controller: CafeController) {
                             HttpStatusCode.BadRequest, ApiResponse.Error("Quantity is numeric or not null")
                         )
                     } else {
-                        val updated = controller.updateQuantityDrinks(id, quantity)
+                        val updated = controller.updateQuantityDrink(id, quantity)
                         if (updated) {
                             call.respond(HttpStatusCode.OK, ApiResponse.Success("Updated to quantity"))
                         } else {
                             call.respond(
-                                HttpStatusCode.NotFound, ApiResponse.Error("Not found drinks")
+                                HttpStatusCode.NotFound, ApiResponse.Error("Not found drink")
                             )
                         }
                     }

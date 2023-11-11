@@ -17,6 +17,6 @@
     <logger name="com.example.route.DrinksRouteKt" level="ERROR"/>
     <logger name="com.example.route.FavoriteRouteKt" level="ERROR"/>
     <logger name="com.example.route.PaymentMethodRouteKt" level="ERROR"/>
-    <logger name="com.example.route.ReviewsRouteKt" level="ERROR"/>
+    <logger name="com.example.route.ReviewRouteKt" level="ERROR"/>
     <logger name="com.example.route.UserRouteKt" level="ERROR"/>
 </configuration>

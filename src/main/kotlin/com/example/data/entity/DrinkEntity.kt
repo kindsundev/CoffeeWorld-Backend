@@ -2,7 +2,7 @@ package com.example.data.entity
 
 import org.ktorm.schema.*
 
-object DrinksEntity : Table<Nothing>("drinks") {
+object DrinkEntity : Table<Nothing>("drink") {
     val id = int("id").primaryKey()
     val cafeId = int("cafe_id")
     val name = varchar("name")

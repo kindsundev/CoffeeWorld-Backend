@@ -20,9 +20,9 @@ class CartRepository(
             .map {
                 val cartItemId = it[CartItemEntity.id] ?: -1
                 val cartId = it[CartItemEntity.cartId] ?: -1
-                val drinksId = it[CartItemEntity.drinksId] ?: -1
+                val drinkId = it[CartItemEntity.drinkId] ?: -1
                 val quantity = it[CartItemEntity.quantity] ?: -1
-                CartItemModel(cartItemId, cartId, drinksId, quantity)
+                CartItemModel(cartItemId, cartId, drinkId, quantity)
             }
 
         val cartItemsMap = cartItems.groupBy { it.cartId }
@@ -59,7 +59,7 @@ class CartRepository(
     override fun insertItemToCart(item: CartItemDTO): Boolean {
         return database.insert(CartItemEntity) {
             set(CartItemEntity.cartId, item.cartId)
-            set(CartItemEntity.drinksId, item.drinksId)
+            set(CartItemEntity.drinkId, item.drinkId)
             set(CartItemEntity.quantity, item.quantity)
         } > 0
     }

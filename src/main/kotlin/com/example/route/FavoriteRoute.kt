@@ -44,7 +44,7 @@ fun Application.configureFavoriteRoutes(controller: FavoriteController) {
                     val favoriteRequest = call.receive<FavoriteDTO>()
                     try {
                         controller.createFavorite(favoriteRequest)
-                        call.respond(HttpStatusCode.Created, ApiResponse.Success("Added drinks to favorite"))
+                        call.respond(HttpStatusCode.Created, ApiResponse.Success("Added drink to favorite"))
                     } catch (e: Exception) {
                         logger.error("Error at create favorite", e)
                         call.respond(
@@ -64,9 +64,9 @@ fun Application.configureFavoriteRoutes(controller: FavoriteController) {
                     try {
                         val deleted = controller.deleteFavorite(id)
                         if (deleted) {
-                            call.respond(HttpStatusCode.OK, ApiResponse.Success("Deleted drinks from favorite"))
+                            call.respond(HttpStatusCode.OK, ApiResponse.Success("Deleted drink from favorite"))
                         } else {
-                            call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found drinks in favorite"))
+                            call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found drink in favorite"))
                         }
                     } catch (e: Exception) {
                         logger.error("Error at delete favorite", e)

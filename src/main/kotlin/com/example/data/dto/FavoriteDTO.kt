@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 data class FavoriteDTO(
     @SerialName("user_id")
     val userId: Int,
-    @SerialName("drinks_id")
-    val drinksId: Int
+    @SerialName("drink_id")
+    val drinkId: Int
 )

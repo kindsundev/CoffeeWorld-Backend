@@ -7,13 +7,13 @@ import com.example.data.dto.RegisterDTO
 import com.example.data.model.UserModel
 
 class AuthController(
-    private val auth: AuthContract
+    private val service: AuthContract
 ){
-    fun loginUser(user: LoginDTO): String? = auth.loginUser(user)
+    fun loginUser(user: LoginDTO): String? = service.loginUser(user)
 
-    fun registerUser(user: RegisterDTO): String = auth.registerUser(user)
+    fun registerUser(user: RegisterDTO): String = service.registerUser(user)
 
-    fun forgotPassword(authInfo: AuthDTO): String = auth.forgotPassword(authInfo)
+    fun forgotPassword(authInfo: AuthDTO): String = service.forgotPassword(authInfo)
 
-    fun getUser(username: String): UserModel? = auth.getUser(username)
+    fun getUser(username: String): UserModel? = service.getUser(username)
 }

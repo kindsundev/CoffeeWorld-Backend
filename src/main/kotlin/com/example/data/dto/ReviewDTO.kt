@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ReviewsDTO(
-    @SerialName("drinks_id")
-    val drinksId: Int,
+data class ReviewDTO(
+    @SerialName("drink_id")
+    val drinkId: Int,
     @SerialName("user_id")
     val userId: Int,
     val rating: Float,

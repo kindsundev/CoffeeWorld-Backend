@@ -1,7 +1,7 @@
 package com.example.route
 
-import com.example.controller.ReviewsController
-import com.example.data.dto.ReviewsDTO
+import com.example.controller.ReviewController
+import com.example.data.dto.ReviewDTO
 import com.example.response.ApiResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -10,11 +10,11 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
 
-private val logger by lazy { LoggerFactory.getLogger("com.example.route.ReviewsRouteKt") }
+private val logger by lazy { LoggerFactory.getLogger("com.example.route.ReviewRouteKt") }
 
-fun Application.configureReviewsRoutes(controller: ReviewsController) {
+fun Application.configureReviewRoutes(controller: ReviewController) {
     routing {
-        route("/reviews") {
+        route("/review") {
 
             get("/{id}") {
                 val id = call.parameters["id"]?.toIntOrNull()
@@ -23,14 +23,14 @@ fun Application.configureReviewsRoutes(controller: ReviewsController) {
                     return@get
                 }
                 try {
-                    val reviews = controller.getReviews(id)
-                    if (reviews != null) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success(reviews))
+                    val review = controller.getReview(id)
+                    if (review != null) {
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success(review))
                     } else {
                         call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found drinks"))
                     }
                 } catch (e: Exception) {
-                    logger.error("Error at get reviews by id", e)
+                    logger.error("Error at get review by id", e)
                     call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later"))
                 }
             }
@@ -42,25 +42,25 @@ fun Application.configureReviewsRoutes(controller: ReviewsController) {
                     return@get
                 }
                 try {
-                    val list = controller.getReviewsByDrinksId(id)
+                    val list = controller.getReviewByDrinkId(id)
                     if (list.isNotEmpty()) {
                         call.respond(HttpStatusCode.OK, ApiResponse.Success(list))
                     } else {
-                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found reviews"))
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found review"))
                     }
                 } catch (e: Exception) {
-                    logger.error("Error at get reviews by drinks_id", e)
+                    logger.error("Error at get review by drink_id", e)
                     call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later"))
                 }
             }
 
             post {
-                val reviewsRequest = call.receive<ReviewsDTO>()
+                val reviewRequest = call.receive<ReviewDTO>()
                 try {
-                    controller.createReviews(reviewsRequest)
-                    call.respond(HttpStatusCode.Created, ApiResponse.Success("Create reviews is success"))
+                    controller.createReview(reviewRequest)
+                    call.respond(HttpStatusCode.Created, ApiResponse.Success("Create review is success"))
                 } catch (e: Exception) {
-                    logger.error("Error at create reviews", e)
+                    logger.error("Error at create review", e)
                     call.respond(
                         HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later")
                     )
@@ -76,16 +76,16 @@ fun Application.configureReviewsRoutes(controller: ReviewsController) {
                     return@put
                 }
 
-                val reviewsRequest = call.receive<ReviewsDTO>()
+                val reviewRequest = call.receive<ReviewDTO>()
                 try {
-                    val updated = controller.updateReviews(id, reviewsRequest)
+                    val updated = controller.updateReview(id, reviewRequest)
                     if (updated) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success("Updated to reviews"))
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success("Updated to review"))
                     } else {
-                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found reviews"))
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found review"))
                     }
                 } catch (e: Exception) {
-                    logger.error("Error at update reviews", e)
+                    logger.error("Error at update review", e)
                     call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later"))
                 }
             }
@@ -98,14 +98,14 @@ fun Application.configureReviewsRoutes(controller: ReviewsController) {
                 }
 
                 try {
-                    val deleted = controller.deleteReviews(id)
+                    val deleted = controller.deleteReview(id)
                     if (deleted) {
-                        call.respond(HttpStatusCode.OK, ApiResponse.Success("Deleted to reviews"))
+                        call.respond(HttpStatusCode.OK, ApiResponse.Success("Deleted to review"))
                     } else {
-                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found reviews"))
+                        call.respond(HttpStatusCode.NotFound, ApiResponse.Error("Not found review"))
                     }
                 } catch (e: Exception) {
-                    logger.error("Error at delete reviews", e)
+                    logger.error("Error at delete review", e)
                     call.respond(HttpStatusCode.InternalServerError, ApiResponse.Error("An error occurred, please try again later"))
                 }
             }

@@ -14,10 +14,10 @@ fun Application.initializedCafeRouting() {
     configureCafeRouting(controller)
 }
 
-fun Application.initializedReviewsRouting() {
-    val repository = ReviewsRepository(database)
-    val controller = ReviewsController(repository)
-    configureReviewsRouting(controller)
+fun Application.initializedReviewRouting() {
+    val repository = ReviewRepository(database)
+    val controller = ReviewController(repository)
+    configureReviewRouting(controller)
 }
 
 fun Application.initializedFavoriteRouting() {

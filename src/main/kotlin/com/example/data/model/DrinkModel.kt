@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DrinksModel(
+data class DrinkModel(
     val id: Int,
     @SerialName("cafe_id")
     val cafeId: Int,
